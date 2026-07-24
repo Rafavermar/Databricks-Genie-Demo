@@ -11,16 +11,32 @@ diapositivas, notas, límites del canvas y textos prohibidos. Cuando existe
 `evidence/remote_presentation_metrics.json`, utiliza los KPIs agregados del
 despliegue remoto y comprueba sus conteos contra el dataset local determinista.
 
-Las diapositivas de dashboard y Genie incorporan capturas reales saneadas:
+La versión comercial contiene 20 diapositivas con notas de presentador,
+arquitectura editable, explicación de Genie One, Genie Agents y Apps, modelo de
+compartición y un recorrido de demo de 12-15 minutos.
 
-- `assets/dashboard_executive.png`
-- `assets/genie_agent.png`
+Las diapositivas incorporan capturas reales del workspace:
+
+- `assets/dashboard_executive_v2.png`
+- `assets/dashboard_reliability_v2.png`
+- `assets/genie_one_home.png`
+- `assets/genie_conversation.png`
+- `assets/genie_benchmark_results.png`
+
+La infografía `assets/genie_ecosystem_visual.png` es una ilustración conceptual
+generada para el deck. Las etiquetas, la jerarquía técnica y las afirmaciones
+de estado se mantienen como objetos editables de PowerPoint.
 
 La utilidad `scripts/capture_browser_window.ps1` permite regenerarlas usando
 una sesión de Chrome ya autenticada. La presentación recorta únicamente la
 interfaz del navegador y conserva sin reconstrucción el contenido de
 Databricks.
 
-En este entorno PowerPoint local convirtió correctamente el resultado a
-`renewable_operations_demo.pdf` y renderizó las 12 diapositivas para revisión
-visual.
+Exportación y renderizado de control:
+
+```powershell
+.\scripts\export_presentation.ps1
+```
+
+PowerPoint genera `renewable_operations_demo.pdf` y renderiza las 20
+diapositivas en `presentation/rendered`, directorio ignorado por Git.
