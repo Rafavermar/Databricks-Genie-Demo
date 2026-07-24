@@ -936,11 +936,12 @@
         "dark": "#FF3621"
       },
       "visualizationColors": [
-        "#1B2533",
-        "#FF3621",
         "#00A972",
+        "#FF3621",
+        "#4C9AFF",
         "#F39C4A",
-        "#6B7785"
+        "#B07FE0",
+        "#E6C229"
       ],
       "widgetHeaderAlignment": "LEFT"
     },

@@ -8,8 +8,8 @@ Estado final: **PASS**.
 - `ruff check .`: PASS.
 - `ruff format --check .`: PASS.
 - `mypy src`: PASS.
-- `pytest`: 19 passed, 1 integration test omitido en la suite local.
-- Cobertura: 90,73 %, umbral 80 %.
+- `pytest`: 21 passed, 1 integration test omitido en la suite local.
+- Cobertura: 91,01 %, umbral 80 %.
 - YAML y JSON: PASS.
 - `databricks bundle schema`: PASS.
 - `databricks bundle validate`: `Validation OK!`.
@@ -39,6 +39,8 @@ Regiones: 5. La semantic view y la Metric View responden.
 - Dashboard aceptado, publicado y sin credenciales embebidas.
 - Dos datasets ejecutados: 5.460 y 10.920 filas.
 - 13 visualizaciones de negocio y 4 filtros globales.
+- Paleta corregida para tema oscuro: ninguna serie coincide con el fondo.
+- Smoke test de contraste añadido para impedir regresiones visuales.
 - Genie Space creado por API sobre la Metric View.
 - Pregunta de validación completada con SQL `MEASURE(...)`.
 - Respuesta verificada: 696.970,70 MWh en 2026-Q2.
@@ -50,6 +52,7 @@ Regiones: 5. La semantic view y la Metric View responden.
 - PPTX abierto y convertido a PDF con PowerPoint local.
 - Las 12 diapositivas se renderizaron a PNG y se revisaron visualmente.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
+- Las diapositivas 7 y 8 incluyen capturas reales del dashboard y Genie.
 
 Las evidencias saneadas se guardan en `evidence/`. No se guardan correos,
 tokens, cookies ni parámetros de autenticación.

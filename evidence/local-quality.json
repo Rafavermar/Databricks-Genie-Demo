@@ -4,9 +4,9 @@
   "ruff_format_check": "PASS",
   "mypy": "PASS",
   "pytest": {
-    "passed": 19,
+    "passed": 21,
     "skipped": 1,
-    "coverage_pct": 90.73,
+    "coverage_pct": 91.01,
     "coverage_threshold_pct": 80
   },
   "yaml_validation": "PASS",
@@ -16,7 +16,11 @@
     "notes": 12,
     "canvas_failures": 0,
     "pdf_created": true,
-    "visual_review": "PASS"
+    "visual_review": "PASS",
+    "real_screenshots": [
+      "dashboard_executive.png",
+      "genie_agent.png"
+    ]
   }
 }
 

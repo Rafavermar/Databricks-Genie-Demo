@@ -20,9 +20,8 @@
 
 ## Requiere paso manual
 
-- Autenticación OAuth U2M.
-- Conceder credenciales Git a Databricks para clonar un repositorio privado.
-- Autenticar GitHub CLI para publicar el repositorio y abrir un PR.
+- Revisar y fusionar cambios según las reglas de protección de ramas.
+- Renovar OAuth U2M cuando GitHub o Databricks caduquen la sesión.
 
 ## No utilizado en Free Edition
 
@@ -33,9 +32,9 @@
 
 Este documento se actualiza con el resultado real del despliegue.
 
-## Alternativa Git aplicada
+## Git Flow aplicado
 
-El código está en un repositorio Git local y en la rama
-`agent/renewable-operations-demo`. No se creó un remoto ni Git Folder porque
-GitHub CLI quedó instalado pero sin sesión. Esto no bloquea bundle, job,
-dashboard ni Genie; el bundle desplegado sincroniza los archivos a Workspace.
+El repositorio público es `Rafavermar/Databricks-Genie-Demo`. Las ramas
+`main`, `develop` y `agent/renewable-operations-demo` están publicadas y el
+Git Folder de Databricks sigue la rama feature hasta completar el PR hacia
+`develop`. El remoto privado inicial se conserva como `private-origin`.

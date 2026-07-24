@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
+from typing import Any
 
 from renewable_operations.config import TABLE_NAMES
 
@@ -14,6 +16,20 @@ class SqlCheck:
     name: str
     query: str
     expected_value: int
+
+
+def dashboard_palette_has_dark_contrast(serialized_dashboard: Mapping[str, Any]) -> bool:
+    """Return whether every visualization color differs from dark backgrounds."""
+    theme = serialized_dashboard.get("uiSettings", {}).get("theme", {})
+    palette = theme.get("visualizationColors", [])
+    dark_backgrounds = {
+        theme.get("canvasBackgroundColor", {}).get("dark"),
+        theme.get("widgetBackgroundColor", {}).get("dark"),
+    }
+    normalized_backgrounds = {color.lower() for color in dark_backgrounds if isinstance(color, str)}
+    return bool(palette) and all(
+        isinstance(color, str) and color.lower() not in normalized_backgrounds for color in palette
+    )
 
 
 def build_remote_checks(catalog: str, schema: str) -> tuple[SqlCheck, ...]:

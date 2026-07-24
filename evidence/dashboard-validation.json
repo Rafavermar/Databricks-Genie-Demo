@@ -18,6 +18,16 @@
   "pages": 3,
   "business_visualizations": 13,
   "global_filters": 4,
+  "published_revision_create_time": "2026-07-24T13:40:18.778Z",
+  "dark_theme_contrast": "PASS",
+  "visualization_palette": [
+    "#00A972",
+    "#FF3621",
+    "#4C9AFF",
+    "#F39C4A",
+    "#B07FE0",
+    "#E6C229"
+  ],
   "safe_url": "https://dbc-78d92c1b-3cff.cloud.databricks.com/dashboardsv3/01f1875dbc6b184e88a0c6bc19df7bc8/published?o=1389190390101071"
 }
 

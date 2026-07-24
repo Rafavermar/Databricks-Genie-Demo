@@ -10,7 +10,10 @@ from typing import Any
 
 from databricks.sdk import WorkspaceClient
 
-from renewable_operations.deployment_checks import build_remote_checks
+from renewable_operations.deployment_checks import (
+    build_remote_checks,
+    dashboard_palette_has_dark_contrast,
+)
 
 
 def _first_value(client: WorkspaceClient, warehouse_id: str, statement: str) -> int:
@@ -70,6 +73,8 @@ def _dashboard_summary(client: WorkspaceClient, warehouse_id: str) -> dict[str, 
         "dataset_count": len(serialized["datasets"]),
         "page_count": len(serialized["pages"]),
         "widget_count": sum(len(page["layout"]) for page in serialized["pages"]),
+        "dark_theme_contrast_pass": dashboard_palette_has_dark_contrast(serialized),
+        "visualization_palette": serialized["uiSettings"]["theme"]["visualizationColors"],
         "datasets": dataset_results,
     }
 
@@ -115,6 +120,8 @@ def main() -> None:
         failures.append("dashboard_exists")
     elif not all(dataset["passed"] for dataset in dashboard["datasets"]):
         failures.append("dashboard_dataset_queries")
+    elif not dashboard["dark_theme_contrast_pass"]:
+        failures.append("dashboard_dark_theme_contrast")
     report = {
         "status": "PASS" if not failures else "FAIL",
         "sql_checks": check_results,

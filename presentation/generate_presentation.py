@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
+from io import BytesIO
 from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
+from PIL import Image
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
@@ -24,6 +26,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "presentation" / "renewable_operations_demo.pptx"
 LOCAL_EVIDENCE = ROOT / "evidence" / "local_presentation_metrics.json"
 REMOTE_EVIDENCE = ROOT / "evidence" / "remote_presentation_metrics.json"
+DASHBOARD_SCREENSHOT = ROOT / "presentation" / "assets" / "dashboard_executive.png"
+GENIE_SCREENSHOT = ROOT / "presentation" / "assets" / "genie_agent.png"
 
 NAVY = RGBColor(0x1B, 0x25, 0x33)
 RED = RGBColor(0xFF, 0x36, 0x21)
@@ -155,6 +159,39 @@ def _card(
         size=12,
         color=MID_GRAY,
         valign=MSO_ANCHOR.TOP,
+    )
+
+
+def _real_screenshot(
+    slide: Slide,
+    path: Path,
+    x: float,
+    y: float,
+    width: float,
+    height: float,
+    *,
+    crop_top_pixels: int = 158,
+) -> None:
+    """Insert a real browser capture after removing browser chrome."""
+    if not path.exists():
+        raise FileNotFoundError(f"Required screenshot not found: {path}")
+
+    with Image.open(path) as source:
+        if source.width < 800 or source.height < 600:
+            raise ValueError(f"Screenshot dimensions are too small: {path}")
+        crop_top = min(crop_top_pixels, source.height - 1)
+        cropped = source.crop((0, crop_top, source.width, source.height))
+        image_stream = BytesIO()
+        cropped.save(image_stream, format="PNG")
+        image_stream.seek(0)
+
+    _box(slide, x - 0.03, y - 0.03, width + 0.06, height + 0.06, fill=WHITE)
+    slide.shapes.add_picture(
+        image_stream,
+        Inches(x),
+        Inches(y),
+        width=Inches(width),
+        height=Inches(height),
     )
 
 
@@ -479,101 +516,45 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "Dashboard ejecutivo",
-        metrics["source"],
+        "Captura real del dashboard AI/BI publicado · paleta validada en tema oscuro",
     )
-    kpis = [
-        ("Generación", f"{metrics['total_generation_mwh'] / 1_000_000:.2f} M MWh", TEAL),
-        ("Desviación", f"{metrics['variance_mwh'] / 1_000:.1f} k MWh", RED),
-        ("Disponibilidad", f"{metrics['availability_pct']:.1f} %", NAVY),
-        ("CO2 evitado", f"{metrics['avoided_co2_tonnes'] / 1_000:.1f} kt", TEAL),
-    ]
-    for index, (label, value, color) in enumerate(kpis):
-        x = 0.75 + index * 3.05
-        _box(slide, x, 1.35, 2.8, 1.45, fill=GRAY)
-        _textbox(slide, label, x + 0.15, 1.52, 2.5, 0.3, size=11, color=MID_GRAY)
-        _textbox(slide, value, x + 0.15, 1.88, 2.5, 0.55, size=19, color=color, bold=True)
-    _textbox(slide, "Real frente a prevista", 0.95, 3.23, 4.0, 0.3, size=13, bold=True)
-    _native_line_chart(slide, metrics["monthly"])
-    _box(slide, 8.7, 3.45, 3.75, 2.95, fill=GRAY)
-    _textbox(slide, "Lectura ejecutiva", 9.0, 3.72, 3.15, 0.38, size=16, bold=True)
+    _real_screenshot(slide, DASHBOARD_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _textbox(
         slide,
-        (
-            "• Estacionalidad solar visible\n"
-            "• Mes adverso determinista\n"
-            "• Recuperación posterior a incidencia\n"
-            "• Drill-down por región e instalación"
-        ),
-        9.0,
-        4.2,
-        3.05,
-        1.75,
-        size=12,
+        "Pantalla real · ambas series y barras visibles · filtros globales activos",
+        0.82,
+        6.65,
+        11.65,
+        0.24,
+        size=10,
         color=MID_GRAY,
-        valign=MSO_ANCHOR.TOP,
+        align=PP_ALIGN.CENTER,
     )
     _notes(
         slide,
-        "Mostrar un resumen real del dataset validado sin inventar cifras.",
+        "Mostrar el dashboard real corregido y explicar las dos series y los filtros.",
         "La misma capa sirve a una conversación en lenguaje natural.",
         "1:45",
         "Abrir el dashboard real, filtrar el mes adverso y bajar a región.",
     )
 
-    slide = _base_slide(presentation, "Conversación con Genie")
-    _box(slide, 0.75, 1.35, 7.2, 4.95, fill=GRAY)
-    _textbox(slide, "Usuario", 1.05, 1.67, 1.0, 0.3, size=11, color=MID_GRAY, bold=True)
-    _box(slide, 1.0, 2.05, 5.85, 0.8, fill=WHITE, line=LIGHT_LINE)
+    slide = _base_slide(
+        presentation,
+        "Conversación con Genie",
+        "Captura real del agente desplegado · fuente semántica gobernada",
+    )
+    _real_screenshot(slide, GENIE_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _textbox(
         slide,
-        "¿Qué región tuvo la mayor desviación negativa y en qué periodo?",
-        1.2,
-        2.16,
-        5.45,
-        0.52,
-        size=13,
-    )
-    _textbox(
-        slide, "Renewable Operations Analyst", 1.05, 3.15, 3.5, 0.3, size=11, color=TEAL, bold=True
-    )
-    _box(slide, 1.0, 3.55, 6.45, 1.55, fill=WHITE, line=TEAL)
-    _textbox(
-        slide,
-        (
-            "Hallazgo primero\n"
-            "Periodo y MWh explícitos\n"
-            "Evidencia desde la métrica gobernada\n"
-            "Inferencias claramente marcadas"
-        ),
-        1.25,
-        3.72,
-        5.95,
-        1.18,
-        size=12,
-        color=MID_GRAY,
-        valign=MSO_ANCHOR.TOP,
-    )
-    _textbox(slide, "Consulta libre", 8.55, 1.6, 3.5, 0.4, size=17, bold=True)
-    _textbox(
-        slide,
-        "Explora y formula\nuna pregunta nueva",
-        8.55,
-        2.1,
-        3.5,
-        0.8,
-        size=14,
-        color=MID_GRAY,
-    )
-    _textbox(slide, "Métrica gobernada", 8.55, 3.35, 3.5, 0.4, size=17, bold=True, color=TEAL)
-    _textbox(
-        slide,
-        "Reutiliza reglas,\nunidades y calendario",
-        8.55,
-        3.85,
-        3.5,
-        0.8,
-        size=14,
-        color=MID_GRAY,
+        "Fuente autorizada: workspace.renewable_operations_demo.gg_renewable_operations_metrics",
+        0.82,
+        6.65,
+        11.65,
+        0.24,
+        size=10,
+        color=TEAL,
+        bold=True,
+        align=PP_ALIGN.CENTER,
     )
     _notes(
         slide,
@@ -673,7 +654,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(presentation, "Controles y calidad")
     controls = [
         ("Infraestructura como código", "Bundle validable y reproducible"),
-        ("Tests", "19 tests · 90,7 % cobertura"),
+        ("Tests", "21 tests · 91,0 % cobertura"),
         ("Data quality", "Claves, rangos, conteos y coherencia"),
         ("Idempotencia", "Segunda ejecución sin duplicados"),
         ("Unity Catalog", "Namespace aislado y comentado"),
