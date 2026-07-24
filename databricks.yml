@@ -1,0 +1,17 @@
+bundle:
+  name: gg-renewable-operations-demo
+
+include:
+  - resources/*.yml
+
+sync:
+  exclude:
+    - .venv
+    - .git
+    - evidence
+    - presentation/rendered
+    - tests
+
+targets:
+  dev:
+    default: true

@@ -1,0 +1,23 @@
+{
+  "name": "Renewable Operations Intelligence",
+  "dashboard_id": "01f1875dbc6b184e88a0c6bc19df7bc8",
+  "published": true,
+  "embed_credentials": false,
+  "datasets": [
+    {
+      "name": "Renewable operations semantic data",
+      "query_row_count": 5460,
+      "status": "PASS"
+    },
+    {
+      "name": "Actual versus forecast trend",
+      "query_row_count": 10920,
+      "status": "PASS"
+    }
+  ],
+  "pages": 3,
+  "business_visualizations": 13,
+  "global_filters": 4,
+  "safe_url": "https://dbc-78d92c1b-3cff.cloud.databricks.com/dashboardsv3/01f1875dbc6b184e88a0c6bc19df7bc8/published?o=1389190390101071"
+}
+

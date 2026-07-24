@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "greengrid-renewable-operations"
+version = "0.1.0"
+description = "Synthetic Renewable Operations Intelligence demo for Databricks Free Edition"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "GreenGrid Energy demo contributors" }]
+dependencies = [
+  "databricks-sdk>=0.60.0",
+  "python-pptx>=1.0.2",
+  "PyYAML>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.15.0",
+  "pytest>=8.3.0",
+  "pytest-cov>=6.0.0",
+  "ruff>=0.11.0",
+  "types-PyYAML>=6.0.12",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/renewable_operations"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["presentation/rendered"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "C4", "SIM", "RUF", "D"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"notebooks/*.py" = ["E402"]
+"tests/**/*.py" = ["D"]
+"tests/integration/*.py" = ["SIM112"]
+"presentation/generate_presentation.py" = ["D"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["renewable_operations"]
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["renewable_operations"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true

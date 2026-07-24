@@ -1,0 +1,953 @@
+{
+  "datasets": [
+    {
+      "name": "a1000001",
+      "displayName": "Renewable operations semantic data",
+      "queryLines": [
+        "SELECT\n",
+        "  date,\n",
+        "  month,\n",
+        "  asset,\n",
+        "  technology,\n",
+        "  region,\n",
+        "  incident_severity,\n",
+        "  actual_generation_mwh,\n",
+        "  forecast_generation_mwh,\n",
+        "  generation_variance_mwh,\n",
+        "  generation_variance_pct,\n",
+        "  availability_pct,\n",
+        "  capacity_factor_pct,\n",
+        "  operating_cost_eur,\n",
+        "  cost_per_mwh_eur,\n",
+        "  avoided_co2_tonnes,\n",
+        "  incident_count,\n",
+        "  downtime_hours\n",
+        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n"
+      ]
+    },
+    {
+      "name": "a1000002",
+      "displayName": "Actual versus forecast trend",
+      "queryLines": [
+        "SELECT date, region, technology, asset, 'Real' AS series, actual_generation_mwh AS generation_mwh\n",
+        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n",
+        "UNION ALL\n",
+        "SELECT date, region, technology, asset, 'Prevista' AS series, forecast_generation_mwh AS generation_mwh\n",
+        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "b1000001",
+      "displayName": "Executive Overview",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "c1000001",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "total_generation_mwh",
+                      "expression": "SUM(`actual_generation_mwh`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_generation_mwh",
+                  "displayName": "Generación (MWh)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Generación real"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000002",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "generation_variance_mwh",
+                      "expression": "SUM(`generation_variance_mwh`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "generation_variance_mwh",
+                  "displayName": "Desviación (MWh)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Desviación frente a previsión"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000003",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "average_availability_pct",
+                      "expression": "AVG(`availability_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "average_availability_pct",
+                  "displayName": "Disponibilidad (%)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Disponibilidad media"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000004",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "avoided_co2_tonnes",
+                      "expression": "SUM(`avoided_co2_tonnes`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avoided_co2_tonnes",
+                  "displayName": "CO2 evitado (t)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "CO2 evitado"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000005",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000002",
+                  "fields": [
+                    {
+                      "name": "monthly(date)",
+                      "expression": "DATE_TRUNC('MONTH', `date`)"
+                    },
+                    {
+                      "name": "sum(generation_mwh)",
+                      "expression": "SUM(`generation_mwh`)"
+                    },
+                    {
+                      "name": "series",
+                      "expression": "`series`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(date)",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Mes"
+                },
+                "y": {
+                  "fieldName": "sum(generation_mwh)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Generación (MWh)"
+                },
+                "color": {
+                  "fieldName": "series",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Serie"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Generación mensual real frente a prevista"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000006",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "sum(actual_generation_mwh)",
+                      "expression": "SUM(`actual_generation_mwh`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "technology",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Tecnología"
+                },
+                "y": {
+                  "fieldName": "sum(actual_generation_mwh)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Generación (MWh)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Generación por tecnología"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 3,
+            "width": 4,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000007",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    },
+                    {
+                      "name": "sum(generation_variance_mwh)",
+                      "expression": "SUM(`generation_variance_mwh`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "region",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Región"
+                },
+                "y": {
+                  "fieldName": "sum(generation_variance_mwh)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Desviación (MWh)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Desviación por región"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000008",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "asset",
+                      "expression": "`asset`"
+                    },
+                    {
+                      "name": "sum(generation_variance_mwh)",
+                      "expression": "SUM(`generation_variance_mwh`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(generation_variance_mwh)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Desviación (MWh)"
+                },
+                "y": {
+                  "fieldName": "asset",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x"
+                    }
+                  },
+                  "displayName": "Instalación sintética"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Instalaciones con desviación desfavorable"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ]
+    },
+    {
+      "name": "b1000002",
+      "displayName": "Operational Reliability",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "c1000009",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "asset",
+                      "expression": "`asset`"
+                    },
+                    {
+                      "name": "avg(availability_pct)",
+                      "expression": "AVG(`availability_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "avg(availability_pct)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Disponibilidad (%)"
+                },
+                "y": {
+                  "fieldName": "asset",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Instalación"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Disponibilidad por instalación"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c100000a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "incident_severity",
+                      "expression": "`incident_severity`"
+                    },
+                    {
+                      "name": "sum(incident_count)",
+                      "expression": "SUM(`incident_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "incident_severity",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Severidad"
+                },
+                "y": {
+                  "fieldName": "sum(incident_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Incidentes"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Incidentes por severidad"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c100000b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "sum(downtime_hours)",
+                      "expression": "SUM(`downtime_hours`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "technology",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Tecnología"
+                },
+                "y": {
+                  "fieldName": "sum(downtime_hours)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Downtime (h)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Downtime por tecnología"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c100000c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    },
+                    {
+                      "name": "cost_per_mwh_eur",
+                      "expression": "SUM(`operating_cost_eur`) / NULLIF(SUM(`actual_generation_mwh`), 0)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "technology",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Tecnología"
+                },
+                "y": {
+                  "fieldName": "cost_per_mwh_eur",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Coste (EUR/MWh)"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Coste por MWh"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "c100000d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "asset",
+                      "expression": "`asset`"
+                    },
+                    {
+                      "name": "generation_variance_mwh",
+                      "expression": "SUM(`generation_variance_mwh`)"
+                    },
+                    {
+                      "name": "availability_pct",
+                      "expression": "AVG(`availability_pct`)"
+                    },
+                    {
+                      "name": "incident_count",
+                      "expression": "SUM(`incident_count`)"
+                    },
+                    {
+                      "name": "cost_per_mwh_eur",
+                      "expression": "SUM(`operating_cost_eur`) / NULLIF(SUM(`actual_generation_mwh`), 0)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "asset",
+                    "displayName": "Instalación",
+                    "type": "string"
+                  },
+                  {
+                    "fieldName": "generation_variance_mwh",
+                    "displayName": "Desviación (MWh)",
+                    "type": "number"
+                  },
+                  {
+                    "fieldName": "availability_pct",
+                    "displayName": "Disponibilidad (%)",
+                    "type": "number"
+                  },
+                  {
+                    "fieldName": "incident_count",
+                    "displayName": "Incidentes",
+                    "type": "number"
+                  },
+                  {
+                    "fieldName": "cost_per_mwh_eur",
+                    "displayName": "Coste (EUR/MWh)",
+                    "type": "number"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Detalle operativo por instalación"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "b100000f",
+      "displayName": "Filtros globales",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layout": [
+        {
+          "widget": {
+            "name": "c1000010",
+            "queries": [
+              {
+                "name": "filter_date",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "date",
+                      "expression": "`date`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "date",
+                    "displayName": "Periodo",
+                    "queryName": "filter_date"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Periodo"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000011",
+            "queries": [
+              {
+                "name": "filter_region",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "region",
+                      "expression": "`region`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region",
+                    "displayName": "Región",
+                    "queryName": "filter_region"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Región"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000012",
+            "queries": [
+              {
+                "name": "filter_technology",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "technology",
+                      "expression": "`technology`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "technology",
+                    "displayName": "Tecnología",
+                    "queryName": "filter_technology"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Tecnología"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "c1000013",
+            "queries": [
+              {
+                "name": "filter_asset",
+                "query": {
+                  "datasetName": "a1000001",
+                  "fields": [
+                    {
+                      "name": "asset",
+                      "expression": "`asset`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "asset",
+                    "displayName": "Instalación",
+                    "queryName": "filter_asset"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Instalación"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 2
+          }
+        }
+      ]
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F5F7F9",
+        "dark": "#1B2533"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#1B2533"
+      },
+      "fontColor": {
+        "light": "#1B2533",
+        "dark": "#FFFFFF"
+      },
+      "selectionColor": {
+        "light": "#FF3621",
+        "dark": "#FF3621"
+      },
+      "visualizationColors": [
+        "#1B2533",
+        "#FF3621",
+        "#00A972",
+        "#F39C4A",
+        "#6B7785"
+      ],
+      "widgetHeaderAlignment": "LEFT"
+    },
+    "genieSpace": {
+      "isEnabled": false,
+      "enablementMode": "DISABLED"
+    }
+  }
+}
+

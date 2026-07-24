@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "catalog": "workspace",
+  "schema": "renewable_operations_demo",
+  "date_range": {
+    "start": "2025-01-01",
+    "end": "2026-06-30",
+    "days": 546
+  },
+  "data_quality": {
+    "null_business_keys": 0,
+    "duplicate_daily_keys": 0,
+    "technologies": 3,
+    "regions": 5,
+    "several_incident_severities": true,
+    "non_negative_generation": true,
+    "availability_in_range": true,
+    "capacity_factor_in_range": true
+  },
+  "semantic_view": {
+    "name": "gg_renewable_operations_semantic",
+    "responds": true,
+    "rows": 5460
+  },
+  "metric_view": {
+    "name": "gg_renewable_operations_metrics",
+    "responds": true,
+    "total_generation_mwh": 3800894.759
+  },
+  "integration_test": "1 passed"
+}
+
