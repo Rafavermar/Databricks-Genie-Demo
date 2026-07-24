@@ -10,6 +10,10 @@ El script `scripts/create_or_update_genie.py` usa la API pública de Genie,
 serialización v2, preguntas de ejemplo e instrucciones. Busca primero un único
 Space con el título esperado y lo actualiza; no crea duplicados.
 
+En ambas fuentes, `asset` representa una instalación renovable ficticia y
+`operational_owner` su equipo operador. Son dimensiones independientes de la
+paleta de colores del dashboard.
+
 La validación posterior debe comprobar:
 
 1. existencia de un único Space;

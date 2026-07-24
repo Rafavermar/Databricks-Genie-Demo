@@ -44,6 +44,16 @@ def build_remote_checks(catalog: str, schema: str) -> tuple[SqlCheck, ...]:
     semantic = f"{prefix}.`{TABLE_NAMES['semantic']}`"
     return (
         SqlCheck("asset_rows", f"SELECT COUNT(*) FROM {asset}", 10),
+        SqlCheck(
+            "unambiguous_asset_names",
+            (
+                f"SELECT COUNT(*) FROM {asset} WHERE "
+                "(technology = 'Solar' AND asset_name LIKE 'Planta Solar %') OR "
+                "(technology = 'Wind' AND asset_name LIKE 'Parque Eólico %') OR "
+                "(technology = 'Hydro' AND asset_name LIKE 'Central Hidráulica %')"
+            ),
+            10,
+        ),
         SqlCheck("generation_rows", f"SELECT COUNT(*) FROM {generation}", 5460),
         SqlCheck("incident_rows", f"SELECT COUNT(*) FROM {incident}", 15),
         SqlCheck("kpi_rows", f"SELECT COUNT(*) FROM {kpi}", 5460),

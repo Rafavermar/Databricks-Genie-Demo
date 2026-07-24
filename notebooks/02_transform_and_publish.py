@@ -141,6 +141,8 @@ fields:
     expr: YEAR(source.generation_date)
   - name: asset
     expr: source.asset_name
+  - name: operational_owner
+    expr: source.operational_owner
   - name: technology
     expr: source.technology
   - name: region
