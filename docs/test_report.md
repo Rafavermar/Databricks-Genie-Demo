@@ -57,7 +57,7 @@ Regiones: 5. La semantic view y la Metric View responden.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
 - Capturas reales de Genie One, dos páginas del dashboard, conversación y
   resultado de benchmark incorporadas.
-- Infografía conceptual y jerarquía editable de componentes incorporadas.
+- Infografía plana y jerarquía editable de componentes incorporadas.
 
 Las evidencias saneadas se guardan en `evidence/`. No se guardan correos,
 tokens, cookies ni parámetros de autenticación.

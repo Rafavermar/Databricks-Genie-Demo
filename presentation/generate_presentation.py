@@ -33,7 +33,6 @@ GENIE_SCREENSHOT = ASSETS / "genie_agent.png"
 GENIE_CONVERSATION_SCREENSHOT = ASSETS / "genie_conversation.png"
 GENIE_ONE_HOME_SCREENSHOT = ASSETS / "genie_one_home.png"
 GENIE_BENCHMARK_SCREENSHOT = ASSETS / "genie_benchmark_results.png"
-GENIE_ECOSYSTEM_VISUAL = ASSETS / "genie_ecosystem_visual.png"
 
 NAVY = RGBColor(0x1B, 0x25, 0x33)
 RED = RGBColor(0xFF, 0x36, 0x21)
@@ -921,7 +920,96 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         color=TEAL,
         bold=True,
     )
-    _real_screenshot(slide, GENIE_ECOSYSTEM_VISUAL, 6.28, 0.72, 6.35, 5.9, crop_top_pixels=0)
+    _box(
+        slide,
+        6.28,
+        0.72,
+        6.35,
+        5.9,
+        fill=RGBColor(0x23, 0x30, 0x40),
+        line=MID_GRAY,
+    )
+    _textbox(
+        slide,
+        "ARQUITECTURA DEL DEMO",
+        6.65,
+        1.02,
+        5.58,
+        0.32,
+        size=12,
+        color=LIGHT_LINE,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+    )
+    _box(slide, 7.02, 1.52, 4.85, 0.7, fill=RED, line=RED)
+    _textbox(
+        slide,
+        "GENIE ONE",
+        7.22,
+        1.61,
+        1.65,
+        0.25,
+        size=13,
+        color=WHITE,
+        bold=True,
+    )
+    _textbox(
+        slide,
+        "Entrada única para negocio",
+        8.88,
+        1.61,
+        2.7,
+        0.25,
+        size=10,
+        color=WHITE,
+        align=PP_ALIGN.RIGHT,
+    )
+    _arrow(slide, (9.45, 2.23), (9.45, 2.48), color=RED)
+    experiences = [
+        (
+            "AI/BI DASHBOARD",
+            "KPIs · filtros · visuales",
+            6.62,
+            TEAL,
+        ),
+        (
+            "GENIE AGENT",
+            "Preguntas · SQL · benchmark",
+            9.54,
+            ORANGE,
+        ),
+    ]
+    for title, body, x, color in experiences:
+        _box(slide, x, 2.5, 2.7, 0.92, fill=NAVY, line=color)
+        _textbox(slide, title, x + 0.16, 2.62, 2.38, 0.27, size=11, color=color, bold=True)
+        _textbox(slide, body, x + 0.16, 3.02, 2.38, 0.22, size=8.5, color=LIGHT_LINE)
+    _arrow(slide, (9.45, 3.44), (9.45, 3.7), color=TEAL)
+    cover_layers = [
+        (
+            "UNITY CATALOG + SEMÁNTICA",
+            "KPI diario · Semantic View · Metric View",
+            3.72,
+            TEAL,
+        ),
+        (
+            "SQL WAREHOUSE + WORKFLOW",
+            "Consulta y procesamiento serverless",
+            4.73,
+            ORANGE,
+        ),
+        (
+            "DATOS RENOVABLES SINTÉTICOS",
+            "Generación · previsión · disponibilidad · incidencias",
+            5.72,
+            LIGHT_LINE,
+        ),
+    ]
+    for title, body, y, color in cover_layers:
+        _box(slide, 7.02, y, 4.85, 0.72, fill=NAVY, line=color)
+        _textbox(slide, title, 7.2, y + 0.1, 4.45, 0.24, size=10.5, color=color, bold=True)
+        _textbox(slide, body, 7.2, y + 0.4, 4.45, 0.2, size=8.3, color=LIGHT_LINE)
+    _arrow(slide, (9.45, 4.45), (9.45, 4.7), color=TEAL)
+    _arrow(slide, (9.45, 5.46), (9.45, 5.69), color=ORANGE)
     _textbox(slide, FOOTER, 0.82, 7.1, 7.4, 0.2, size=9, color=LIGHT_LINE)
     _textbox(slide, "1", 12.08, 7.1, 0.55, 0.2, size=9, color=LIGHT_LINE)
     _notes(
@@ -1247,21 +1335,111 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         "1:30",
     )
 
-    # 8 · Visual ecosystem
-    slide = _dark_slide(
+    # 8 · Flat architecture flow
+    slide = _base_slide(
         presentation,
         "Del dato renovable a la acción",
-        "Infografía conceptual · etiquetas superpuestas y editables",
+        "Componentes del demo y flujo de valor · diagrama plano y editable",
     )
-    _real_screenshot(slide, GENIE_ECOSYSTEM_VISUAL, 0.72, 1.34, 11.9, 5.45, crop_top_pixels=0)
-    _pill(slide, "DATOS SINTÉTICOS", 0.95, 5.95, 1.78, fill=NAVY)
-    _pill(slide, "UNITY CATALOG + SEMÁNTICA", 5.05, 4.42, 2.65, fill=TEAL)
-    _pill(slide, "AI/BI DASHBOARD", 1.18, 3.12, 1.92, fill=NAVY)
-    _pill(slide, "GENIE AGENT", 10.0, 3.12, 1.65, fill=ORANGE)
-    _pill(slide, "GENIE ONE + DECISIÓN", 5.18, 1.52, 2.38, fill=RED)
+    stages = [
+        (
+            "01",
+            "DATOS",
+            "Generación real y prevista\n\nDisponibilidad\n\nIncidencias y costes",
+            NAVY,
+        ),
+        (
+            "02",
+            "PREPARAR",
+            "Tablas Delta\n\nKPI diario\n\nWorkflow serverless",
+            ORANGE,
+        ),
+        (
+            "03",
+            "GOBERNAR",
+            "Unity Catalog\n\nSemantic View\n\nMetric View\n\nUnidades y periodo",
+            TEAL,
+        ),
+        (
+            "04",
+            "ANALIZAR",
+            "AI/BI Dashboard\n\nGenie Agent\n\nSQL de referencia\n\nBenchmarks",
+            RED,
+        ),
+        (
+            "05",
+            "DECIDIR",
+            "Genie One\n\nObservar\n\nPreguntar\n\nPriorizar",
+            NAVY,
+        ),
+    ]
+    for index, (number, title, body, color) in enumerate(stages):
+        x = 0.58 + index * 2.55
+        _box(slide, x, 1.58, 2.22, 4.7, fill=GRAY, line=color)
+        marker = slide.shapes.add_shape(
+            MSO_SHAPE.RECTANGLE,
+            Inches(x),
+            Inches(1.58),
+            Inches(2.22),
+            Inches(0.09),
+        )
+        marker.fill.solid()
+        marker.fill.fore_color.rgb = color
+        marker.line.fill.background()
+        _textbox(
+            slide,
+            number,
+            x + 0.18,
+            1.88,
+            0.52,
+            0.4,
+            size=16,
+            color=color,
+            bold=True,
+        )
+        _textbox(
+            slide,
+            title,
+            x + 0.18,
+            2.38,
+            1.84,
+            0.4,
+            size=15,
+            color=NAVY,
+            bold=True,
+        )
+        _textbox(
+            slide,
+            body,
+            x + 0.18,
+            3.05,
+            1.84,
+            2.55,
+            size=11,
+            color=MID_GRAY,
+            valign=MSO_ANCHOR.TOP,
+        )
+        if index < len(stages) - 1:
+            _arrow(slide, (x + 2.24, 3.92), (x + 2.49, 3.92), color=color, width=2.4)
+    _box(slide, 1.2, 6.52, 10.9, 0.42, fill=NAVY, line=NAVY)
+    _textbox(
+        slide,
+        "DESPLEGADO HOY: DATOS → PREPARACIÓN → GOBIERNO → ANÁLISIS → DECISIÓN",
+        1.42,
+        6.58,
+        10.46,
+        0.25,
+        size=10.5,
+        color=WHITE,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+    )
     _notes(
         slide,
-        "Usar la imagen para explicar el flujo sin entrar todavía en implementación.",
+        (
+            "Recorrer el diagrama plano de izquierda a derecha y explicar "
+            "la función de cada componente."
+        ),
         "Aterrizamos esa visión en el modelo de datos gobernado.",
         "1:00",
     )
