@@ -5,7 +5,7 @@
 - Presentación comercial ampliada a 20 diapositivas y PDF regenerado.
 - Capturas reales de Genie One, dashboard ejecutivo, fiabilidad, conversación
   de Genie y benchmark incorporadas al entregable.
-- Infografía cliente del ecosistema y jerarquía editable de componentes.
+- Infografía plana y jerarquía editable de componentes, sin ilustraciones 3D.
 - Cinco SQL de referencia y cinco benchmarks publicados en el Genie Agent.
 - Evaluación real del Agent con resultado 100 % accurate (5/5).
 - Documentación de Apps, evolución recomendada y modelo de compartición.

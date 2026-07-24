@@ -23,9 +23,9 @@ Las diapositivas incorporan capturas reales del workspace:
 - `assets/genie_conversation.png`
 - `assets/genie_benchmark_results.png`
 
-La infografía `assets/genie_ecosystem_visual.png` es una ilustración conceptual
-generada para el deck. Las etiquetas, la jerarquía técnica y las afirmaciones
-de estado se mantienen como objetos editables de PowerPoint.
+La portada y la infografía de arquitectura se construyen exclusivamente con
+formas y texto editables de PowerPoint. No dependen de ilustraciones 3D ni de
+texto incrustado en imágenes.
 
 La utilidad `scripts/capture_browser_window.ps1` permite regenerarlas usando
 una sesión de Chrome ya autenticada. La presentación recorta únicamente la
