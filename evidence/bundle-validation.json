@@ -1,0 +1,11 @@
+{
+  "bundle_name": "gg-renewable-operations-demo",
+  "target": "dev",
+  "schema_command": "PASS",
+  "validate_command": "PASS",
+  "validate_message": "Validation OK!",
+  "deploy_status": "Deployment complete!",
+  "profile_recorded_separately": true,
+  "secrets_recorded": false
+}
+

@@ -1,0 +1,14 @@
+variables:
+  catalog:
+    description: Writable Unity Catalog catalog for the demo.
+    default: workspace
+  schema:
+    description: Isolated schema owned by this demo.
+    default: renewable_operations_demo
+  warehouse_id:
+    description: Existing serverless SQL warehouse used by AI/BI assets.
+    default: d8c8d62c82dd3d73
+  seed:
+    description: Fixed synthetic-data seed.
+    default: "202603"
+

@@ -1,0 +1,16 @@
+{
+  "profile": "Rafa Vera",
+  "authenticated": true,
+  "masked_host": "https://dbc-78d***3cff.cloud.databricks.com",
+  "masked_identity": "jr***@***",
+  "cloud": "AWS",
+  "classification": "CONSISTENT_WITH_FREE_EDITION",
+  "evidence": [
+    "Only the workspace managed catalog is writable; samples and system are read-only system catalogs.",
+    "Exactly one accessible SQL warehouse is serverless and constrained to one cluster.",
+    "No account-level resources were required or used.",
+    "The selected OAuth profile is the only currently valid profile for this host."
+  ],
+  "credentials_exposed": false
+}
+

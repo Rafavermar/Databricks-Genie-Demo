@@ -1,0 +1,55 @@
+resources:
+  jobs:
+    renewable_operations_setup:
+      name: Renewable Operations Demo Setup
+      description: >-
+        Idempotent serverless workflow for the GreenGrid Energy synthetic
+        Renewable Operations Intelligence demo.
+      max_concurrent_runs: 1
+      timeout_seconds: 3600
+      queue:
+        enabled: true
+      tags:
+        project: gg-renewable-operations
+        data_classification: synthetic
+        compute: serverless
+      parameters:
+        - name: catalog
+          default: ${var.catalog}
+        - name: schema
+          default: ${var.schema}
+        - name: seed
+          default: ${var.seed}
+        - name: source_root
+          default: ${workspace.file_path}/src
+      tasks:
+        - task_key: setup_and_generate
+          notebook_task:
+            notebook_path: ../notebooks/01_setup_and_generate_data.py
+          timeout_seconds: 1200
+          max_retries: 1
+          min_retry_interval_millis: 30000
+          retry_on_timeout: true
+        - task_key: transform_and_publish
+          depends_on:
+            - task_key: setup_and_generate
+          notebook_task:
+            notebook_path: ../notebooks/02_transform_and_publish.py
+          timeout_seconds: 1200
+          max_retries: 1
+          min_retry_interval_millis: 30000
+          retry_on_timeout: true
+        - task_key: data_quality
+          depends_on:
+            - task_key: transform_and_publish
+          notebook_task:
+            notebook_path: ../notebooks/03_data_quality_checks.py
+          timeout_seconds: 900
+          max_retries: 0
+        - task_key: final_validation
+          depends_on:
+            - task_key: data_quality
+          notebook_task:
+            notebook_path: ../notebooks/04_demo_validation.py
+          timeout_seconds: 600
+          max_retries: 0

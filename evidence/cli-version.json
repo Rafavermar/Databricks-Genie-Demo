@@ -1,0 +1,6 @@
+{
+  "captured_at": "2026-07-24T12:59:36.210231+00:00",
+  "command": "databricks -v",
+  "exit_code": 0,
+  "output": "Databricks CLI v1.0.0\n"
+}

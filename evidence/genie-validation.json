@@ -1,0 +1,14 @@
+{
+  "name": "Renewable Operations Analyst",
+  "space_id": "01f1875e907d1eb0a7f2bfffd1d5f32f",
+  "status": "DEPLOYED_AND_TESTED",
+  "authorized_source": "workspace.renewable_operations_demo.gg_renewable_operations_metrics",
+  "sample_questions": 10,
+  "validation_question": "¿Cuánta energía se generó el último trimestre disponible?",
+  "validation_status": "COMPLETED",
+  "period": "2026-Q2",
+  "answer_mwh": 696970.70,
+  "generated_sql_uses_measure": true,
+  "generated_sql_uses_only_authorized_source": true
+}
+
