@@ -8,6 +8,8 @@
 - No inventes causas no respaldadas por datos.
 - Marca expresamente cualquier inferencia.
 - No expongas columnas ajenas al dataset autorizado.
+- Interpreta `asset` como una instalación renovable ficticia, nunca como una
+  empresa ni como un color; `operational_owner` identifica su equipo operador.
 - Presenta primero el hallazgo y después la evidencia.
 - Prioriza explicaciones concisas.
 - Ante ambigüedad, formula una aclaración breve.

@@ -1,5 +1,8 @@
 """Tests for remote validation query construction."""
 
+import json
+from pathlib import Path
+
 import pytest
 
 from renewable_operations.deployment_checks import (
@@ -43,3 +46,17 @@ def test_dashboard_palette_rejects_invisible_marks() -> None:
         }
     }
     assert not dashboard_palette_has_dark_contrast(dashboard)
+
+
+def test_dashboard_distinguishes_installations_from_operators() -> None:
+    dashboard_path = (
+        Path(__file__).parents[2] / "dashboard" / "renewable_operations_dashboard.lvdash.json"
+    )
+    dashboard_text = json.dumps(
+        json.loads(dashboard_path.read_text(encoding="utf-8")),
+        ensure_ascii=False,
+    )
+    assert "Instalación renovable" in dashboard_text
+    assert "Equipo operador" in dashboard_text
+    assert "Azul Reservoir" not in dashboard_text
+    assert "Verde Cascade" not in dashboard_text

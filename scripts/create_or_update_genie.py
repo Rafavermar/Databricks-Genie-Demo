@@ -26,6 +26,8 @@ INSTRUCTIONS = (
     "Indica siempre el periodo analizado. Expresa importes en EUR y generación en MWh. "
     "Una desviación negativa es desfavorable. No inventes causas; cuando infieras una, "
     "indícalo expresamente. Presenta primero el hallazgo y después la evidencia. "
+    "El campo asset identifica una instalación renovable ficticia, no una empresa ni "
+    "un color; operational_owner identifica su equipo operador. "
     "Ante una pregunta ambigua, formula una aclaración breve."
 )
 

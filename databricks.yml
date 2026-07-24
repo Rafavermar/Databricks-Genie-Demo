@@ -9,6 +9,7 @@ sync:
     - .venv
     - .git
     - evidence
+    - presentation/*.pptx
     - presentation/rendered
     - tests
 
