@@ -19,11 +19,16 @@ en Operational Reliability.
 
 ## Operational Reliability
 
-- Disponibilidad por instalación.
+- Disponibilidad por instalación renovable.
 - Incidentes por severidad.
 - Downtime por tecnología.
 - Coste por MWh.
-- Detalle operativo por instalación.
+- Detalle operativo por instalación y equipo operador.
+
+Los nombres de instalación comienzan por `Planta Solar`, `Parque Eólico` o
+`Central Hidráulica`. El equipo operador se presenta como una dimensión
+independiente; ningún nombre de instalación representa una compañía o un color
+de la paleta visual.
 
 ## Convenciones visuales
 

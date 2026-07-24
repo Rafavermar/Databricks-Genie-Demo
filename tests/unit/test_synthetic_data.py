@@ -5,6 +5,13 @@ from datetime import date
 from renewable_operations.config import ASSET_SPECS, REGIONS, TECHNOLOGIES, GenerationConfig
 from renewable_operations.synthetic_data import generate_dataset
 
+ASSET_PREFIX_BY_TECHNOLOGY = {
+    "Solar": "Planta Solar ",
+    "Wind": "Parque Eólico ",
+    "Hydro": "Central Hidráulica ",
+}
+COLOR_TERMS = {"azul", "verde", "rojo", "naranja", "amarillo", "violeta"}
+
 
 def test_generation_is_deterministic() -> None:
     first = generate_dataset(GenerationConfig(seed=42))
@@ -62,6 +69,13 @@ def test_values_are_within_business_bounds() -> None:
     assert all(0 <= row["availability_pct"] <= 100 for row in dataset.generation)
     assert {asset["technology"] for asset in dataset.assets} == set(TECHNOLOGIES)
     assert {asset["region"] for asset in dataset.assets} == set(REGIONS)
+
+
+def test_asset_names_are_unambiguous_installations() -> None:
+    for asset in ASSET_SPECS:
+        assert asset.asset_name.startswith(ASSET_PREFIX_BY_TECHNOLOGY[asset.technology])
+        assert not COLOR_TERMS.intersection(asset.asset_name.lower().split())
+        assert asset.operational_owner.startswith("Equipo Operativo ")
 
 
 def test_patterns_are_present() -> None:

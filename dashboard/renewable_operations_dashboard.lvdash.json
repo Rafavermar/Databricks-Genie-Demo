@@ -10,6 +10,7 @@
         "  asset,\n",
         "  technology,\n",
         "  region,\n",
+        "  operational_owner,\n",
         "  incident_severity,\n",
         "  actual_generation_mwh,\n",
         "  forecast_generation_mwh,\n",
@@ -417,7 +418,7 @@
                       "by": "x"
                     }
                   },
-                  "displayName": "Instalación sintética"
+                  "displayName": "Instalación renovable"
                 }
               },
               "frame": {
@@ -478,12 +479,12 @@
                   "scale": {
                     "type": "categorical"
                   },
-                  "displayName": "Instalación"
+                  "displayName": "Instalación renovable"
                 }
               },
               "frame": {
                 "showTitle": true,
-                "title": "Disponibilidad por instalación"
+                "title": "Disponibilidad por instalación renovable"
               }
             }
           },
@@ -670,6 +671,10 @@
                       "expression": "`asset`"
                     },
                     {
+                      "name": "operational_owner",
+                      "expression": "`operational_owner`"
+                    },
+                    {
                       "name": "generation_variance_mwh",
                       "expression": "SUM(`generation_variance_mwh`)"
                     },
@@ -697,7 +702,12 @@
                 "columns": [
                   {
                     "fieldName": "asset",
-                    "displayName": "Instalación",
+                    "displayName": "Instalación renovable",
+                    "type": "string"
+                  },
+                  {
+                    "fieldName": "operational_owner",
+                    "displayName": "Equipo operador",
                     "type": "string"
                   },
                   {
@@ -724,7 +734,7 @@
               },
               "frame": {
                 "showTitle": true,
-                "title": "Detalle operativo por instalación"
+                "title": "Detalle operativo por instalación y equipo"
               }
             }
           },
@@ -896,14 +906,14 @@
                 "fields": [
                   {
                     "fieldName": "asset",
-                    "displayName": "Instalación",
+                    "displayName": "Instalación renovable",
                     "queryName": "filter_asset"
                   }
                 ]
               },
               "frame": {
                 "showTitle": true,
-                "title": "Instalación"
+                "title": "Instalación renovable"
               }
             }
           },

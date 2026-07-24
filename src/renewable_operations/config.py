@@ -42,7 +42,7 @@ class AssetSpec:
 ASSET_SPECS = (
     AssetSpec(
         "GG-SOL-001",
-        "Aurora Plain",
+        "Planta Solar Aurora Central",
         "Solar",
         "Central",
         72.0,
@@ -52,7 +52,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-SOL-002",
-        "Lumen Fields",
+        "Planta Solar Lumen Sur",
         "Solar",
         "South",
         88.0,
@@ -62,7 +62,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-SOL-003",
-        "Helio Coast",
+        "Planta Solar Helio Levante",
         "Solar",
         "East",
         64.0,
@@ -72,7 +72,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-WND-001",
-        "Brisa Ridge",
+        "Parque Eólico Brisa Norte",
         "Wind",
         "North",
         110.0,
@@ -82,7 +82,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-WND-002",
-        "Cierzo Plateau",
+        "Parque Eólico Cierzo Levante",
         "Wind",
         "East",
         96.0,
@@ -92,7 +92,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-WND-003",
-        "Nerea Heights",
+        "Parque Eólico Nerea Insular",
         "Wind",
         "Islands",
         78.0,
@@ -102,7 +102,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-WND-004",
-        "Sirocco Mesa",
+        "Parque Eólico Siroco Sur",
         "Wind",
         "South",
         102.0,
@@ -112,7 +112,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-HYD-001",
-        "Azul Reservoir",
+        "Central Hidráulica Embalse Norte",
         "Hydro",
         "North",
         125.0,
@@ -122,7 +122,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-HYD-002",
-        "Verde Cascade",
+        "Central Hidráulica Cascada Central",
         "Hydro",
         "Central",
         92.0,
@@ -132,7 +132,7 @@ ASSET_SPECS = (
     ),
     AssetSpec(
         "GG-HYD-003",
-        "Marea Basin",
+        "Central Hidráulica Cuenca Insular",
         "Hydro",
         "Islands",
         58.0,
