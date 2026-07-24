@@ -1,0 +1,15 @@
+{
+  "captured_at": "2026-07-24T12:57:34.515030+00:00",
+  "catalog": "workspace",
+  "schema": "renewable_operations_demo",
+  "asset_rows": 10,
+  "generation_rows": 5460,
+  "incident_rows": 15,
+  "kpi_rows": 5460,
+  "total_generation_mwh": 3800894.758999999,
+  "total_forecast_mwh": 3858792.8589999997,
+  "variance_mwh": -57898.10000000003,
+  "availability_pct": 96.81170476190478,
+  "avoided_co2_tonnes": 1254295.2480000008,
+  "source": "Resultados del despliegue remoto validados"
+}

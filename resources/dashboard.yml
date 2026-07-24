@@ -1,0 +1,7 @@
+resources:
+  dashboards:
+    renewable_operations_dashboard:
+      display_name: Renewable Operations Intelligence
+      file_path: ../dashboard/renewable_operations_dashboard.lvdash.json
+      warehouse_id: ${var.warehouse_id}
+

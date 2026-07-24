@@ -1,0 +1,44 @@
+{
+  "job_name": "Renewable Operations Demo Setup",
+  "job_id": "136400576344453",
+  "runs": [
+    {
+      "run_id": "601281688484762",
+      "life_cycle_state": "TERMINATED",
+      "result_state": "SUCCESS",
+      "tasks": {
+        "setup_and_generate": "SUCCESS",
+        "transform_and_publish": "SUCCESS",
+        "data_quality": "SUCCESS",
+        "final_validation": "SUCCESS"
+      }
+    },
+    {
+      "run_id": "1023450519381193",
+      "life_cycle_state": "TERMINATED",
+      "result_state": "SUCCESS",
+      "tasks": {
+        "setup_and_generate": "SUCCESS",
+        "transform_and_publish": "SUCCESS",
+        "data_quality": "SUCCESS",
+        "final_validation": "SUCCESS"
+      }
+    }
+  ],
+  "idempotency": {
+    "passed": true,
+    "first_counts": {
+      "gg_renewable_asset": 10,
+      "gg_renewable_daily_generation": 5460,
+      "gg_renewable_incident": 15,
+      "gg_renewable_daily_kpi": 5460
+    },
+    "second_counts": {
+      "gg_renewable_asset": 10,
+      "gg_renewable_daily_generation": 5460,
+      "gg_renewable_incident": 15,
+      "gg_renewable_daily_kpi": 5460
+    }
+  }
+}
+
