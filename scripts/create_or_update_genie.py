@@ -36,12 +36,110 @@ def _identifier(index: int) -> str:
     return f"01f0a100000000000000000000000{index:03d}"
 
 
+def _verified_question_sqls(
+    catalog: str, schema: str, use_metric_view: bool
+) -> list[tuple[str, str]]:
+    """Return tested question/SQL pairs for instructions and benchmarks."""
+    if use_metric_view:
+        source = f"{catalog}.{schema}.gg_renewable_operations_metrics"
+        return [
+            (
+                "¿Cuánta energía se generó el último trimestre disponible?",
+                (
+                    "SELECT quarter, MEASURE(total_generation_mwh) AS total_generation_mwh "
+                    f"FROM {source} WHERE quarter IS NOT NULL GROUP BY ALL "
+                    "ORDER BY quarter DESC LIMIT 1"
+                ),
+            ),
+            (
+                "¿Qué región tuvo la mayor desviación negativa?",
+                (
+                    "SELECT region, MEASURE(generation_variance_mwh) "
+                    f"AS generation_variance_mwh FROM {source} WHERE region IS NOT NULL "
+                    "GROUP BY ALL ORDER BY generation_variance_mwh ASC LIMIT 1"
+                ),
+            ),
+            (
+                "Compara coste por MWh y disponibilidad por tecnología.",
+                (
+                    "SELECT technology, MEASURE(cost_per_mwh_eur) AS cost_per_mwh_eur, "
+                    "MEASURE(average_availability_pct) AS average_availability_pct "
+                    f"FROM {source} WHERE technology IS NOT NULL GROUP BY ALL "
+                    "ORDER BY technology"
+                ),
+            ),
+            (
+                "¿Qué tres instalaciones presentan menor disponibilidad?",
+                (
+                    "SELECT asset, MEASURE(average_availability_pct) "
+                    "AS average_availability_pct, MEASURE(incident_count) AS incident_count, "
+                    f"MEASURE(downtime_hours) AS downtime_hours FROM {source} "
+                    "WHERE asset IS NOT NULL GROUP BY ALL "
+                    "ORDER BY average_availability_pct ASC LIMIT 3"
+                ),
+            ),
+            (
+                "Muéstrame la generación mensual real frente a la prevista.",
+                (
+                    "SELECT month, MEASURE(total_generation_mwh) AS total_generation_mwh, "
+                    f"MEASURE(total_forecast_mwh) AS total_forecast_mwh FROM {source} "
+                    "WHERE month IS NOT NULL GROUP BY ALL ORDER BY month"
+                ),
+            ),
+        ]
+
+    source = f"{catalog}.{schema}.gg_renewable_operations_semantic"
+    return [
+        (
+            "¿Cuánta energía se generó el último trimestre disponible?",
+            (
+                "SELECT quarter, SUM(actual_generation_mwh) AS total_generation_mwh "
+                f"FROM {source} GROUP BY quarter ORDER BY quarter DESC LIMIT 1"
+            ),
+        ),
+        (
+            "¿Qué región tuvo la mayor desviación negativa?",
+            (
+                "SELECT region, SUM(generation_variance_mwh) AS generation_variance_mwh "
+                f"FROM {source} GROUP BY region ORDER BY generation_variance_mwh ASC LIMIT 1"
+            ),
+        ),
+        (
+            "Compara coste por MWh y disponibilidad por tecnología.",
+            (
+                "SELECT technology, "
+                "try_divide(SUM(operating_cost_eur), SUM(actual_generation_mwh)) "
+                "AS cost_per_mwh_eur, AVG(availability_pct) AS average_availability_pct "
+                f"FROM {source} GROUP BY technology ORDER BY technology"
+            ),
+        ),
+        (
+            "¿Qué tres instalaciones presentan menor disponibilidad?",
+            (
+                "SELECT asset, AVG(availability_pct) AS average_availability_pct, "
+                "SUM(incident_count) AS incident_count, SUM(downtime_hours) AS downtime_hours "
+                f"FROM {source} GROUP BY asset "
+                "ORDER BY average_availability_pct ASC LIMIT 3"
+            ),
+        ),
+        (
+            "Muéstrame la generación mensual real frente a la prevista.",
+            (
+                "SELECT month, SUM(actual_generation_mwh) AS total_generation_mwh, "
+                "SUM(forecast_generation_mwh) AS total_forecast_mwh "
+                f"FROM {source} GROUP BY month ORDER BY month"
+            ),
+        ),
+    ]
+
+
 def serialized_space(catalog: str, schema: str, use_metric_view: bool) -> str:
     """Build a schema-compliant serialized Genie Space."""
     source_key = "metric_views" if use_metric_view else "tables"
     source_name = (
         "gg_renewable_operations_metrics" if use_metric_view else "gg_renewable_operations_semantic"
     )
+    verified_answers = _verified_question_sqls(catalog, schema, use_metric_view)
     payload: dict[str, Any] = {
         "version": 2,
         "config": {
@@ -63,12 +161,28 @@ def serialized_space(catalog: str, schema: str, use_metric_view: bool) -> str:
         },
         "instructions": {
             "text_instructions": [{"id": _identifier(100), "content": [INSTRUCTIONS]}],
-            "example_question_sqls": [],
+            "example_question_sqls": [
+                {
+                    "id": _identifier(200 + index),
+                    "question": [question],
+                    "sql": [sql],
+                }
+                for index, (question, sql) in enumerate(verified_answers, start=1)
+            ],
             "sql_functions": [],
             "join_specs": [],
             "sql_snippets": {"filters": [], "expressions": [], "measures": []},
         },
-        "benchmarks": {"questions": []},
+        "benchmarks": {
+            "questions": [
+                {
+                    "id": _identifier(300 + index),
+                    "question": [question],
+                    "answer": [{"format": "SQL", "content": [sql]}],
+                }
+                for index, (question, sql) in enumerate(verified_answers, start=1)
+            ]
+        },
     }
     return json.dumps(payload, ensure_ascii=False)
 
