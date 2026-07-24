@@ -152,10 +152,20 @@ en el workspace.
 
 ```powershell
 uv run python presentation/generate_presentation.py
+.\scripts\export_presentation.ps1
 ```
 
 La presentación usa resultados locales validados o un archivo saneado de
-evidencia remota cuando existe. Nunca inventa KPIs.
+evidencia remota cuando existe. Nunca inventa KPIs. El entregable comercial
+incluye 20 diapositivas con capturas reales de Genie One, dos vistas del
+dashboard, una conversación del Genie Agent y una evaluación benchmark 5/5.
+También diferencia claramente:
+
+- consumo de negocio: dashboard y Agent publicados, accesibles desde Genie One;
+- entrega técnica: repositorio GitHub;
+- despliegue a otro workspace: Asset Bundle más configuración del Genie Agent.
+
+Consulte `presentation/README.md` para regenerar el PPTX y el PDF.
 
 ## Teardown
 

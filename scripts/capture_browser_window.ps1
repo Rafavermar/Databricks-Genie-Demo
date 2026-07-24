@@ -140,7 +140,8 @@ if ([BrowserCaptureNative]::GetForegroundWindow() -ne $handle) {
 }
 
 [System.Windows.Forms.SendKeys]::SendWait("^l")
-[System.Windows.Forms.SendKeys]::SendWait($Url)
+Set-Clipboard -Value $Url
+[System.Windows.Forms.SendKeys]::SendWait("^v")
 [System.Windows.Forms.SendKeys]::SendWait("{ENTER}")
 Start-Sleep -Seconds $WaitSeconds
 

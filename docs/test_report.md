@@ -8,7 +8,7 @@ Estado final: **PASS**.
 - `ruff check .`: PASS.
 - `ruff format --check .`: PASS.
 - `mypy src`: PASS.
-- `pytest`: 21 passed, 1 integration test omitido en la suite local.
+- `pytest`: 25 passed, 1 integration test omitido en la suite local.
 - Cobertura: 91,01 %, umbral 80 %.
 - YAML y JSON: PASS.
 - `databricks bundle schema`: PASS.
@@ -44,15 +44,20 @@ Regiones: 5. La semantic view y la Metric View responden.
 - Genie Space creado por API sobre la Metric View.
 - Pregunta de validación completada con SQL `MEASURE(...)`.
 - Respuesta verificada: 696.970,70 MWh en 2026-Q2.
+- Cinco SQL de referencia y cinco benchmarks publicados por API.
+- Evaluación real de benchmarks: **100 % accurate (5/5)**.
+- Conversación real verificada sobre disponibilidad, incidencias y downtime.
 
 ## Presentación
 
-- 12 diapositivas y 12 bloques de notas.
+- 20 diapositivas y 20 bloques de notas.
 - Ningún elemento fuera del canvas.
 - PPTX abierto y convertido a PDF con PowerPoint local.
-- Las 12 diapositivas se renderizaron a PNG y se revisaron visualmente.
+- Las 20 diapositivas se renderizaron a PNG y se revisaron visualmente.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
-- Las diapositivas 7 y 8 incluyen capturas reales del dashboard y Genie.
+- Capturas reales de Genie One, dos páginas del dashboard, conversación y
+  resultado de benchmark incorporadas.
+- Infografía conceptual y jerarquía editable de componentes incorporadas.
 
 Las evidencias saneadas se guardan en `evidence/`. No se guardan correos,
 tokens, cookies ni parámetros de autenticación.

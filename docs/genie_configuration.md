@@ -14,6 +14,15 @@ En ambas fuentes, `asset` representa una instalación renovable ficticia y
 `operational_owner` su equipo operador. Son dimensiones independientes de la
 paleta de colores del dashboard.
 
+La configuración incluye cinco consultas SQL verificadas y las mismas cinco
+preguntas como benchmarks con respuesta esperada. Las consultas se adaptan a
+la Metric View o a la vista semántica de fallback. Esto permite demostrar tres
+capas distintas de calidad:
+
+1. preguntas sugeridas para orientar al usuario;
+2. SQL de referencia que enseña la lógica aprobada al Agent;
+3. benchmarks que evalúan la respuesta sin añadir contexto al Agent.
+
 La validación posterior debe comprobar:
 
 1. existencia de un único Space;
