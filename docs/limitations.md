@@ -23,7 +23,7 @@
 - Revisar y fusionar cambios según las reglas de protección de ramas.
 - Renovar OAuth U2M cuando GitHub o Databricks caduquen la sesión.
 
-## No utilizado en Free Edition
+## No utilizado en la implementación de Free Edition
 
 - Clusters clásicos e instance pools.
 - Service principals y APIs de account console.
@@ -34,7 +34,19 @@ Este documento se actualiza con el resultado real del despliegue.
 
 ## Git Flow aplicado
 
-El repositorio público es `Rafavermar/Databricks-Genie-Demo`. Las ramas
-`main`, `develop` y `agent/renewable-operations-demo` están publicadas y el
-Git Folder de Databricks sigue la rama feature hasta completar el PR hacia
-`develop`. El remoto privado inicial se conserva como `private-origin`.
+El repositorio canónico es `Rafavermar/Databricks-Genie-Demo`. Los cambios se
+integran primero en `develop` y después se promueven a `main` mediante pull
+requests. El Git Folder de Databricks sigue `main`.
+
+## Reproducción Enterprise
+
+El target `enterprise` usa modo `production`, pero no aprovisiona recursos de
+cuenta. El catálogo, schema, SQL warehouse, identidad y permisos deben existir
+o asignarse antes del despliegue. La raíz se resuelve bajo la carpeta de la
+identidad desplegadora en `/Workspace/Users`; para automatización se recomienda
+OAuth M2M con service principal y secretos administrados fuera del repositorio.
+
+El workflow manual de GitHub Actions automatiza bundle, job, Genie y smoke
+tests cuando se configura el environment `databricks-demo`. No sustituye la
+revisión corporativa de permisos, redes, políticas, costes ni segregación de
+funciones.

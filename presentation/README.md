@@ -11,9 +11,13 @@ diapositivas, notas, límites del canvas y textos prohibidos. Cuando existe
 `evidence/remote_presentation_metrics.json`, utiliza los KPIs agregados del
 despliegue remoto y comprueba sus conteos contra el dataset local determinista.
 
-La versión comercial contiene 20 diapositivas con notas de presentador,
+La versión contiene 22 diapositivas con notas de presentador,
 arquitectura editable, explicación de Genie One, Genie Agents y Apps, modelo de
-compartición y un recorrido de demo de 12-15 minutos.
+compartición, dos anexos técnicos y una guía interna final que puede eliminarse
+antes de enviar el archivo a un cliente.
+
+Los anexos técnicos detallan el job de cuatro tareas, lenguajes, GitHub Actions,
+quality gates y reproducción diferenciada para Free Edition y Enterprise.
 
 Las diapositivas incorporan capturas reales del workspace:
 
@@ -38,5 +42,5 @@ Exportación y renderizado de control:
 .\scripts\export_presentation.ps1
 ```
 
-PowerPoint genera `renewable_operations_demo.pdf` y renderiza las 20
+PowerPoint genera `renewable_operations_demo.pdf` y renderiza las 22
 diapositivas en `presentation/rendered`, directorio ignorado por Git.

@@ -45,7 +45,7 @@ ORANGE = RGBColor(0xF3, 0x9C, 0x4A)
 
 SLIDE_WIDTH = Inches(13.333)
 SLIDE_HEIGHT = Inches(7.5)
-FOOTER = "Datos sintéticos · Capturas reales del workspace · Julio 2026"
+FOOTER = "Datos exclusivamente sintéticos · Julio 2026"
 
 
 def _textbox(
@@ -864,9 +864,11 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     presentation = Presentation()
     presentation.slide_width = SLIDE_WIDTH
     presentation.slide_height = SLIDE_HEIGHT
-    presentation.core_properties.title = "Renewable Operations Intelligence con Genie One"
+    presentation.core_properties.title = (
+        "Inteligencia operativa para energía renovable con Databricks Genie"
+    )
     presentation.core_properties.subject = (
-        "Demo comercial de AI/BI Dashboard, Genie Agent y Genie One sobre datos sintéticos"
+        "Prueba de viabilidad de AI/BI Dashboard, Genie Agent y Genie One"
     )
     presentation.core_properties.author = "GreenGrid Energy demo"
 
@@ -885,10 +887,17 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     accent.fill.solid()
     accent.fill.fore_color.rgb = RED
     accent.line.fill.background()
-    _pill(slide, "DEMO COMERCIAL · DATABRICKS FREE EDITION", 0.78, 0.62, 3.35, fill=RED)
+    _pill(
+        slide,
+        "VIABILIDAD E IMPLEMENTACIÓN · DATABRICKS GENIE",
+        0.78,
+        0.62,
+        4.25,
+        fill=RED,
+    )
     _textbox(
         slide,
-        "Renewable Operations\ncon Genie One",
+        "Inteligencia operativa\npara energía renovable",
         0.78,
         1.35,
         5.35,
@@ -900,7 +909,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     )
     _textbox(
         slide,
-        "De métricas gobernadas a decisiones en lenguaje natural",
+        "Genie One aplicado a generación, fiabilidad y decisiones operativas",
         0.82,
         3.05,
         5.1,
@@ -911,7 +920,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     )
     _textbox(
         slide,
-        "AI/BI Dashboard · Genie Agent · Genie One · Asset Bundle",
+        "AI/BI Dashboard · Genie Agent · Genie One · Automation Bundle",
         0.82,
         4.05,
         5.2,
@@ -945,24 +954,25 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     _textbox(
         slide,
         "GENIE ONE",
-        7.22,
-        1.61,
-        1.65,
+        7.2,
+        1.59,
+        4.49,
         0.25,
         size=13,
         color=WHITE,
         bold=True,
+        align=PP_ALIGN.CENTER,
     )
     _textbox(
         slide,
         "Entrada única para negocio",
-        8.88,
-        1.61,
-        2.7,
+        7.2,
+        1.91,
+        4.49,
         0.25,
         size=10,
         color=WHITE,
-        align=PP_ALIGN.RIGHT,
+        align=PP_ALIGN.CENTER,
     )
     _arrow(slide, (9.45, 2.23), (9.45, 2.48), color=RED)
     experiences = [
@@ -981,8 +991,29 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     ]
     for title, body, x, color in experiences:
         _box(slide, x, 2.5, 2.7, 0.92, fill=NAVY, line=color)
-        _textbox(slide, title, x + 0.16, 2.62, 2.38, 0.27, size=11, color=color, bold=True)
-        _textbox(slide, body, x + 0.16, 3.02, 2.38, 0.22, size=8.5, color=LIGHT_LINE)
+        _textbox(
+            slide,
+            title,
+            x + 0.16,
+            2.62,
+            2.38,
+            0.27,
+            size=11,
+            color=color,
+            bold=True,
+            align=PP_ALIGN.CENTER,
+        )
+        _textbox(
+            slide,
+            body,
+            x + 0.16,
+            3.02,
+            2.38,
+            0.22,
+            size=8.5,
+            color=LIGHT_LINE,
+            align=PP_ALIGN.CENTER,
+        )
     _arrow(slide, (9.45, 3.44), (9.45, 3.7), color=TEAL)
     cover_layers = [
         (
@@ -998,7 +1029,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
             ORANGE,
         ),
         (
-            "DATOS RENOVABLES SINTÉTICOS",
+            "DATOS SINTÉTICOS DE OPERACIÓN ENERGÉTICA",
             "Generación · previsión · disponibilidad · incidencias",
             5.72,
             LIGHT_LINE,
@@ -1006,8 +1037,29 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     ]
     for title, body, y, color in cover_layers:
         _box(slide, 7.02, y, 4.85, 0.72, fill=NAVY, line=color)
-        _textbox(slide, title, 7.2, y + 0.1, 4.45, 0.24, size=10.5, color=color, bold=True)
-        _textbox(slide, body, 7.2, y + 0.4, 4.45, 0.2, size=8.3, color=LIGHT_LINE)
+        _textbox(
+            slide,
+            title,
+            7.2,
+            y + 0.1,
+            4.45,
+            0.24,
+            size=10.5,
+            color=color,
+            bold=True,
+            align=PP_ALIGN.CENTER,
+        )
+        _textbox(
+            slide,
+            body,
+            7.2,
+            y + 0.4,
+            4.45,
+            0.2,
+            size=8.3,
+            color=LIGHT_LINE,
+            align=PP_ALIGN.CENTER,
+        )
     _arrow(slide, (9.45, 4.45), (9.45, 4.7), color=TEAL)
     _arrow(slide, (9.45, 5.46), (9.45, 5.69), color=ORANGE)
     _textbox(slide, FOOTER, 0.82, 7.1, 7.4, 0.2, size=9, color=LIGHT_LINE)
@@ -1133,13 +1185,28 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     # 4 · Use case and real KPIs
     slide = _base_slide(
         presentation,
-        "Caso de uso: operaciones renovables",
+        "Caso de uso: operación de activos de energía renovable",
         "18 meses · 10 instalaciones · datos exclusivamente sintéticos",
     )
     _kpi_card(slide, total_generation, "Generación real (MWh)", 0.72, 1.42, 2.75, accent=TEAL)
     _kpi_card(slide, variance, "Desviación vs. previsión (MWh)", 3.61, 1.42, 2.75, accent=RED)
     _kpi_card(slide, availability, "Disponibilidad media", 6.5, 1.42, 2.75, accent=TEAL)
     _kpi_card(slide, co2, "CO₂ evitado (toneladas)", 9.39, 1.42, 2.75, accent=ORANGE)
+    _textbox(
+        slide,
+        (
+            "GreenGrid Energy opera instalaciones solares, eólicas e hidráulicas. "
+            "La solución identifica desviaciones de generación y fiabilidad para "
+            "priorizar dónde investigar y actuar."
+        ),
+        0.92,
+        2.73,
+        11.5,
+        0.42,
+        size=11.5,
+        color=MID_GRAY,
+        align=PP_ALIGN.CENTER,
+    )
     questions = [
         ("Dirección", "¿Dónde está la desviación y cuál es su impacto?"),
         ("Operaciones", "¿Qué instalación combina baja disponibilidad e incidencias?"),
@@ -1338,7 +1405,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     # 8 · Flat architecture flow
     slide = _base_slide(
         presentation,
-        "Del dato renovable a la acción",
+        "De los datos operativos a la acción",
         "Componentes del demo y flujo de valor · diagrama plano y editable",
     )
     stages = [
@@ -1862,7 +1929,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         "5 SQL de referencia + 5 benchmarks",
         "Resultado de benchmark: 100 % (5/5)",
         "Descubrimiento desde Genie One",
-        "GitHub + Asset Bundle reproducible",
+        "GitHub + Automation Bundle reproducible",
     ]
     for index, item in enumerate(deployed):
         _textbox(slide, "✓", 1.08, 2.45 + index * 0.43, 0.3, 0.28, size=12, color=TEAL, bold=True)
@@ -1921,7 +1988,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         ),
         (
             "OTRO WORKSPACE",
-            "Desplegar el Asset Bundle",
+            "Desplegar el Automation Bundle",
             "El bundle reproduce jobs y dashboard;\nel script configura el Genie Agent",
             ORANGE,
         ),
@@ -1972,71 +2039,16 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         "1:30",
     )
 
-    # 19 · Demo walkthrough
-    slide = _base_slide(
-        presentation,
-        "Recorrido recomendado para una demo a clientes",
-        "Una narrativa de 12-15 minutos, orientada a una decisión",
-    )
-    walkthrough = [
-        ("01", "Contexto", "Explicar objetivo y datos sintéticos"),
-        ("02", "KPIs", "Detectar desviación en Executive Overview"),
-        ("03", "Diagnóstico", "Bajar a fiabilidad e instalaciones"),
-        ("04", "Pregunta", "Consultar los tres riesgos en Genie"),
-        ("05", "Evidencia", "Mostrar SQL, tabla y gráfico"),
-        ("06", "Confianza", "Abrir Benchmark 5/5"),
-        ("07", "Escala", "Enseñar Genie One y compartir"),
-        ("08", "Acción", "Proponer App como siguiente paso"),
-    ]
-    for index, (number, title, body) in enumerate(walkthrough):
-        row, column = divmod(index, 4)
-        x, y = 0.58 + column * 3.18, 1.45 + row * 2.25
-        _box(slide, x, y, 2.88, 1.78, fill=GRAY, line=(RED, NAVY, TEAL, ORANGE)[column])
-        _textbox(slide, number, x + 0.16, y + 0.14, 0.52, 0.4, size=15, color=RED, bold=True)
-        _textbox(slide, title, x + 0.78, y + 0.14, 1.82, 0.4, size=14, bold=True)
-        _textbox(
-            slide,
-            body,
-            x + 0.18,
-            y + 0.77,
-            2.46,
-            0.65,
-            size=10.5,
-            color=MID_GRAY,
-            valign=MSO_ANCHOR.TOP,
-        )
-    _textbox(
-        slide,
-        "La demo debe contar una decisión; no una sucesión de funcionalidades.",
-        1.85,
-        6.23,
-        9.65,
-        0.45,
-        size=18,
-        color=TEAL,
-        bold=True,
-        align=PP_ALIGN.CENTER,
-    )
-    _notes(
-        slide,
-        (
-            "Esta secuencia servirá también como base para el vídeo futuro, "
-            "sin guardar un guion en el repo."
-        ),
-        "Cerramos con la decisión recomendada.",
-        "1:10",
-    )
-
-    # 20 · Close
+    # 19 · Client close
     slide = _dark_slide(
         presentation,
-        "Un demo pequeño que prueba un patrón grande",
+        "Una prueba de viabilidad que demuestra un patrón escalable",
         "Gobierno + BI + conversación + camino a la acción",
     )
     outcomes = [
         ("CONFIABLE", "Métricas y fuentes gobernadas", TEAL),
         ("CONVERSACIONAL", "Preguntas y follow-ups de negocio", ORANGE),
-        ("REPRODUCIBLE", "Repo, tests y Asset Bundle", RED),
+        ("REPRODUCIBLE", "Repo, tests y Automation Bundle", RED),
     ]
     for index, (title, body, color) in enumerate(outcomes):
         x = 0.9 + index * 4.12
@@ -2097,6 +2109,208 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         "0:50",
     )
 
+    # 20 · Technical appendix
+    slide = _base_slide(
+        presentation,
+        "Anexo técnico · implementación del demo",
+        "Job serverless, notebooks, lenguajes y controles que sostienen la experiencia",
+    )
+    _box(slide, 0.72, 1.36, 7.35, 5.42, fill=GRAY, line=NAVY)
+    _pill(slide, "JOB SERVERLESS · 4 TAREAS", 1.03, 1.66, 2.45, fill=NAVY)
+    notebook_tasks = [
+        (
+            "01",
+            "01_setup_and_generate_data.py",
+            "Crea el schema y publica tres tablas Delta sintéticas.",
+            ORANGE,
+        ),
+        (
+            "02",
+            "02_transform_and_publish.py",
+            "Calcula KPI diario y publica Semantic View y Metric View.",
+            TEAL,
+        ),
+        (
+            "03",
+            "03_data_quality_checks.py",
+            "Valida conteos, claves, rangos y contrato del dataset.",
+            RED,
+        ),
+        (
+            "04",
+            "04_demo_validation.py",
+            "Comprueba las vistas y emite la evidencia final del workflow.",
+            NAVY,
+        ),
+    ]
+    for index, (number, filename, purpose, color) in enumerate(notebook_tasks):
+        y = 2.34 + index * 1.0
+        _box(slide, 1.02, y, 6.73, 0.78, fill=WHITE, line=color)
+        _textbox(slide, number, 1.2, y + 0.16, 0.52, 0.38, size=14, color=color, bold=True)
+        _textbox(slide, filename, 1.82, y + 0.1, 2.68, 0.28, size=11.5, bold=True)
+        _textbox(
+            slide,
+            purpose,
+            4.58,
+            y + 0.1,
+            2.88,
+            0.48,
+            size=9.5,
+            color=MID_GRAY,
+            valign=MSO_ANCHOR.TOP,
+        )
+        if index < len(notebook_tasks) - 1:
+            _arrow(slide, (4.35, y + 0.79), (4.35, y + 0.98), color=color)
+
+    _box(slide, 8.35, 1.36, 4.27, 5.42, fill=NAVY, line=NAVY)
+    _textbox(slide, "Stack real", 8.72, 1.74, 3.5, 0.42, size=19, color=WHITE, bold=True)
+    stack_items = [
+        "Python 3.11/3.12",
+        "PySpark + Spark SQL",
+        "Delta Lake + Unity Catalog",
+        "Databricks SDK",
+        "Automation Bundle · GitHub Actions",
+    ]
+    for index, item in enumerate(stack_items):
+        _textbox(slide, "•", 8.75, 2.38 + index * 0.43, 0.25, 0.28, size=12, color=TEAL)
+        _textbox(slide, item, 9.08, 2.34 + index * 0.43, 2.95, 0.3, size=10.5, color=WHITE)
+    _textbox(slide, "Quality gates", 8.72, 4.74, 3.5, 0.36, size=16, color=TEAL, bold=True)
+    quality_items = [
+        "Ruff + Mypy",
+        "Pytest: 25 passed · 91 % cobertura",
+        "Smoke test + integración opt-in",
+        "16 controles remotos",
+        "Benchmark Genie: 5/5",
+    ]
+    for index, item in enumerate(quality_items):
+        _textbox(slide, "✓", 8.75, 5.22 + index * 0.29, 0.25, 0.22, size=10, color=TEAL)
+        _textbox(slide, item, 9.08, 5.18 + index * 0.29, 3.05, 0.24, size=9, color=LIGHT_LINE)
+    _notes(
+        slide,
+        (
+            "Utilizar este anexo únicamente cuando haya audiencia técnica "
+            "o preguntas de implementación."
+        ),
+        "La siguiente lámina explica cómo reproducir el proyecto en cada tipo de workspace.",
+        "1:30",
+    )
+
+    # 21 · Reproduction by environment
+    slide = _base_slide(
+        presentation,
+        "Cómo reproducirlo por entorno Databricks",
+        "Mismo repositorio y bundle; cambian el target, los permisos y la autenticación",
+    )
+    _box(slide, 0.72, 1.42, 5.95, 4.78, fill=GRAY, line=TEAL)
+    _pill(slide, "DATABRICKS FREE EDITION", 1.06, 1.75, 2.48, fill=TEAL)
+    free_items = [
+        ("Target", "dev · modo development"),
+        ("Compute", "exclusivamente serverless"),
+        ("Datos", "catalog workspace · schema aislado"),
+        ("SQL", "warehouse existente · 2X-Small"),
+        ("Auth", "OAuth U2M interactivo"),
+        ("Uso", "prueba individual sujeta a fair-use"),
+    ]
+    for index, (label, body) in enumerate(free_items):
+        y = 2.55 + index * 0.52
+        _textbox(slide, label, 1.1, y, 1.0, 0.3, size=10.5, color=TEAL, bold=True)
+        _textbox(slide, body, 2.15, y, 3.9, 0.3, size=10.5, color=NAVY)
+
+    _box(slide, 6.95, 1.42, 5.65, 4.78, fill=WHITE, line=ORANGE)
+    _pill(slide, "DATABRICKS ENTERPRISE", 7.29, 1.75, 2.38, fill=ORANGE)
+    enterprise_items = [
+        ("Target", "enterprise · modo production"),
+        ("Compute", "serverless recomendado"),
+        ("Datos", "catalog/schema corporativos autorizados"),
+        ("SQL", "warehouse existente con CAN USE"),
+        ("Auth", "U2M local · M2M en CI/CD"),
+        ("Gobierno", "mínimo privilegio y permisos de bundle"),
+    ]
+    for index, (label, body) in enumerate(enterprise_items):
+        y = 2.55 + index * 0.52
+        _textbox(slide, label, 7.32, y, 1.0, 0.3, size=10.5, color=ORANGE, bold=True)
+        _textbox(slide, body, 8.38, y, 3.68, 0.3, size=10.5, color=NAVY)
+
+    _box(slide, 1.2, 6.23, 10.9, 0.48, fill=NAVY, line=NAVY)
+    _textbox(
+        slide,
+        "1 · CLONAR + UV SYNC   →   2 · AUTH + VARIABLES   →   "
+        "3 · VALIDATE + DEPLOY + RUN   →   4 · GENIE + SMOKE TEST",
+        1.42,
+        6.33,
+        10.45,
+        0.28,
+        size=10.5,
+        color=WHITE,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+    )
+    _source_note(
+        slide, "Detalle reproducible: README.md · docs.databricks.com/aws/en/dev-tools/bundles/"
+    )
+    _notes(
+        slide,
+        "Aclarar que el bundle no crea infraestructura de cuenta ni un SQL warehouse.",
+        "El README contiene los comandos exactos para ambos targets.",
+        "1:20",
+    )
+
+    # 22 · Internal walkthrough, intentionally last
+    slide = _base_slide(
+        presentation,
+        "Guía interna · recorrido recomendado",
+        "Última diapositiva opcional; puede eliminarse antes de compartir la versión con cliente",
+    )
+    _pill(slide, "USO INTERNO", 10.9, 0.54, 1.45, fill=ORANGE)
+    walkthrough = [
+        ("01", "Contexto", "Explicar objetivo y datos sintéticos"),
+        ("02", "KPIs", "Detectar desviación en Executive Overview"),
+        ("03", "Diagnóstico", "Bajar a fiabilidad e instalaciones"),
+        ("04", "Pregunta", "Consultar los tres riesgos en Genie"),
+        ("05", "Evidencia", "Mostrar SQL, tabla y gráfico"),
+        ("06", "Confianza", "Abrir Benchmark 5/5"),
+        ("07", "Escala", "Enseñar Genie One y compartir"),
+        ("08", "Acción", "Proponer App como siguiente paso"),
+    ]
+    for index, (number, title, body) in enumerate(walkthrough):
+        row, column = divmod(index, 4)
+        x, y = 0.58 + column * 3.18, 1.45 + row * 2.25
+        _box(slide, x, y, 2.88, 1.78, fill=GRAY, line=(RED, NAVY, TEAL, ORANGE)[column])
+        _textbox(slide, number, x + 0.16, y + 0.14, 0.52, 0.4, size=15, color=RED, bold=True)
+        _textbox(slide, title, x + 0.78, y + 0.14, 1.82, 0.4, size=14, bold=True)
+        _textbox(
+            slide,
+            body,
+            x + 0.18,
+            y + 0.77,
+            2.46,
+            0.65,
+            size=10.5,
+            color=MID_GRAY,
+            valign=MSO_ANCHOR.TOP,
+        )
+    _textbox(
+        slide,
+        "ELIMINAR ESTA DIAPOSITIVA SI EL ARCHIVO SE ENVÍA DIRECTAMENTE AL CLIENTE",
+        1.35,
+        6.23,
+        10.65,
+        0.45,
+        size=14,
+        color=RED,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+    )
+    _notes(
+        slide,
+        (
+            "Guía para el equipo presentador. Esta diapositiva se mantiene al final "
+            "para que pueda eliminarse sin alterar la narrativa del cliente."
+        ),
+        "Fin del anexo interno.",
+        "1:10",
+    )
+
     return presentation
 
 
@@ -2104,7 +2318,7 @@ def validate_presentation(path: Path) -> dict[str, Any]:
     """Validate structure, notes, canvas bounds, and prohibited placeholders."""
     presentation = Presentation(path)
     failures: list[str] = []
-    expected_slides = 20
+    expected_slides = 22
     if len(presentation.slides) != expected_slides:
         failures.append(f"expected {expected_slides} slides, found {len(presentation.slides)}")
     prohibited = ("TODO", "Iberdrola")
