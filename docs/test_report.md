@@ -54,10 +54,10 @@ Regiones: 5. La semantic view y la Metric View responden.
 
 ## Presentación
 
-- 22 diapositivas y 22 bloques de notas.
+- 21 diapositivas y 21 bloques de notas.
 - Ningún elemento fuera del canvas.
 - PPTX abierto y convertido a PDF con PowerPoint local.
-- Las 22 diapositivas se renderizaron a PNG y se revisaron visualmente.
+- Las 21 diapositivas se renderizaron a PNG y se revisaron visualmente.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
 - Capturas de Genie One, dos páginas del dashboard, conversación y resultado de
   benchmark incorporadas.
