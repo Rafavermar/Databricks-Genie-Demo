@@ -74,7 +74,6 @@ desarrollador pueda reproducirlo sin depender del workspace original.
 
 **Entregables:** [PowerPoint editable](presentation/renewable_operations_demo.pptx)
 · [PDF](presentation/renewable_operations_demo.pdf)
-· [guía de publicación](docs/publication.md)
 
 ## Qué contiene el repositorio
 
@@ -98,7 +97,7 @@ la Metric View; si no está disponible, puede usar la Semantic View.
 | Orden | Notebook | Resultado |
 |---:|---|---|
 | 1 | `01_setup_and_generate_data.py` | Schema aislado y tres tablas Delta sintéticas |
-| 2 | `02_transform_and_publish.py` | KPI diario, Semantic View y Metric View |
+| 2 | `02_transform_and_publish.py` | KPI diario, Semantic View y Metric View si está disponible |
 | 3 | `03_data_quality_checks.py` | Conteos, claves, rangos y contrato de calidad |
 | 4 | `04_demo_validation.py` | Evidencia final y estado del despliegue |
 
@@ -113,7 +112,7 @@ La ejecución predeterminada cubre del 1 de enero de 2025 al 30 de junio de
 | Modo | `development` | `production` |
 | Compute | Solo serverless | Serverless recomendado |
 | Catálogo | `workspace` | Catálogo corporativo autorizado |
-| Warehouse | SQL warehouse existente | SQL warehouse existente con `CAN USE` |
+| Warehouse | SQL warehouse serverless | SQL warehouse Pro o Serverless con `CAN USE` |
 | Autenticación local | OAuth U2M | OAuth U2M |
 | Automatización | Uso interactivo | OAuth M2M con service principal |
 | Objetivo | Prueba individual | Workspace gobernado y CI/CD |
@@ -121,23 +120,39 @@ La ejecución predeterminada cubre del 1 de enero de 2025 al 30 de junio de
 El proyecto no crea infraestructura de cuenta, redes, almacenamiento externo ni
 un SQL warehouse. Esos recursos deben existir en el workspace de destino.
 
+## Runbook técnico
+
+El procedimiento completo para integrar, desplegar, validar, actualizar,
+revertir y retirar el proyecto está en
+[`docs/deployment_runbook.md`](docs/deployment_runbook.md).
+
+El runbook cubre ejecución local, Git Folder, Free Edition, Enterprise, OAuth
+U2M/M2M, Genie, smoke tests y GitHub Actions.
+
 ## Prerrequisitos comunes
 
 - Git.
 - Python 3.11 o 3.12.
 - `uv`.
-- Databricks CLI v0.218.0 o posterior; se recomienda la versión actual.
+- Databricks CLI v0.283.0 o posterior; se recomienda la versión actual.
 - Workspace con Unity Catalog y workspace files habilitados.
-- SQL warehouse serverless existente y su ID; el repositorio no contiene un
-  valor predeterminado ligado al workspace del autor.
+- SQL warehouse Pro o Serverless existente y su ID; en Free Edition debe ser
+  Serverless. El repositorio no contiene un valor predeterminado ligado al
+  workspace del autor.
 - Permiso para crear el schema y los recursos del bundle.
+- Acceso a Databricks SQL, a los datos y a la creación o edición del Genie
+  Agent.
+
+El warehouse existente **no se elimina ni se modifica**. El cambio únicamente
+obliga a indicar su ID en cada entorno para evitar reutilizar por accidente el
+ID de otro workspace.
 
 Preparación local:
 
 ```powershell
 git clone https://github.com/Rafavermar/Databricks-Genie-Demo.git
 cd Databricks-Genie-Demo
-uv sync
+uv sync --locked --all-groups
 ```
 
 ## Reproducción en Databricks Free Edition
@@ -148,19 +163,19 @@ de fair-use. Utilice el target `dev`.
 ### 1. Autenticarse y seleccionar recursos
 
 ```powershell
-$profile = "<perfil-free>"
+$databricksProfile = "<perfil-free>"
 $hostUrl = "https://<workspace-host>"
 $warehouseId = "<sql-warehouse-id>"
 
-databricks auth login --host $hostUrl --profile $profile
+databricks auth login --host $hostUrl --profile $databricksProfile
 databricks auth profiles
 
-$env:DATABRICKS_CONFIG_PROFILE = $profile
+$env:DATABRICKS_CONFIG_PROFILE = $databricksProfile
 $env:BUNDLE_VAR_catalog = "workspace"
 $env:BUNDLE_VAR_schema = "renewable_operations_demo"
 $env:BUNDLE_VAR_warehouse_id = $warehouseId
 
-uv run python scripts/detect_free_edition.py --profile $profile
+uv run python scripts/detect_free_edition.py --profile $databricksProfile
 ```
 
 No guarde tokens, cookies ni secretos en el repositorio.
@@ -168,32 +183,33 @@ No guarde tokens, cookies ni secretos en el repositorio.
 ### 2. Validar, desplegar y ejecutar
 
 ```powershell
-databricks bundle validate -t dev --profile $profile
-databricks bundle deploy -t dev --profile $profile
-databricks bundle run -t dev renewable_operations_setup --profile $profile
+databricks bundle validate -t dev --profile $databricksProfile
+databricks bundle deploy -t dev --profile $databricksProfile
+databricks bundle run -t dev renewable_operations_setup --profile $databricksProfile
 ```
 
 ### 3. Configurar Genie y comprobar el resultado
 
 ```powershell
 uv run python scripts/create_or_update_genie.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog workspace `
   --schema renewable_operations_demo
 
 uv run python scripts/smoke_test.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog workspace `
-  --schema renewable_operations_demo
+  --schema renewable_operations_demo `
+  --require-genie
 ```
 
 Si la Metric View no está disponible:
 
 ```powershell
 uv run python scripts/create_or_update_genie.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog workspace `
   --schema renewable_operations_demo `
@@ -202,6 +218,9 @@ uv run python scripts/create_or_update_genie.py `
 
 ## Reproducción en Databricks Enterprise
 
+> Estado: el target y el workflow Enterprise están definidos y validados, pero
+> no se ha ejecutado ningún despliegue en un workspace Enterprise.
+
 Utilice un catálogo y un schema aislados para la prueba. La identidad que
 despliega necesita, como mínimo:
 
@@ -209,6 +228,9 @@ despliega necesita, como mínimo:
 - `CREATE SCHEMA`, o acceso a un schema previamente aprovisionado;
 - permisos para crear tablas y vistas dentro del schema;
 - `CAN USE` sobre el SQL warehouse;
+- entitlement de Databricks SQL y acceso a los datos usados por Genie;
+- permiso para crear el Genie Agent o `CAN EDIT` sobre el existente;
+- `CAN MANAGE` sobre el Genie Agent para ejecutar el teardown;
 - acceso de escritura a su carpeta de usuario o service principal bajo
   `/Workspace/Users`;
 - permisos para crear y administrar los jobs y dashboards del bundle.
@@ -216,42 +238,47 @@ despliega necesita, como mínimo:
 ### 1. Autenticación local U2M
 
 ```powershell
-$profile = "<perfil-enterprise>"
+$databricksProfile = "<perfil-enterprise>"
 $hostUrl = "https://<workspace-enterprise>"
 $catalog = "<catalog-autorizado>"
 $schema = "renewable_operations_demo"
 $warehouseId = "<sql-warehouse-id>"
 
-databricks auth login --host $hostUrl --profile $profile
+databricks auth login --host $hostUrl --profile $databricksProfile
 
-$env:DATABRICKS_CONFIG_PROFILE = $profile
+$env:DATABRICKS_CONFIG_PROFILE = $databricksProfile
 $env:BUNDLE_VAR_catalog = $catalog
 $env:BUNDLE_VAR_schema = $schema
 $env:BUNDLE_VAR_warehouse_id = $warehouseId
 ```
 
+`catalog` y `schema` deben comenzar por una letra ASCII o `_` y contener solo
+letras ASCII, números y guiones bajos. El job, el dashboard y Genie utilizan el
+mismo namespace parametrizado.
+
 ### 2. Desplegar con el target de producción
 
 ```powershell
-databricks bundle validate -t enterprise --profile $profile
-databricks bundle deploy -t enterprise --profile $profile
-databricks bundle run -t enterprise renewable_operations_setup --profile $profile
+databricks bundle validate -t enterprise --profile $databricksProfile
+databricks bundle deploy -t enterprise --profile $databricksProfile
+databricks bundle run -t enterprise renewable_operations_setup --profile $databricksProfile
 ```
 
 ### 3. Configurar Genie y ejecutar smoke tests
 
 ```powershell
 uv run python scripts/create_or_update_genie.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog $catalog `
   --schema $schema
 
 uv run python scripts/smoke_test.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog $catalog `
-  --schema $schema
+  --schema $schema `
+  --require-genie
 ```
 
 Para CI/CD use OAuth M2M y almacene `DATABRICKS_CLIENT_SECRET` en el gestor de
@@ -281,7 +308,8 @@ El workflow valida y despliega el target `enterprise`, ejecuta el job y,
 opcionalmente, configura Genie y lanza los smoke tests. El environment puede
 protegerse con aprobación manual y restringirse a `main`. Los scripts de Genie
 y smoke tests aceptan `--profile` para uso local o autenticación unificada para
-CI/CD.
+CI/CD. Si el runtime requiere el fallback, active también el input
+`use_semantic_view`.
 
 ## Validación local
 
@@ -295,8 +323,8 @@ databricks bundle schema
 
 Estado verificado del repositorio:
 
-- 25 tests superados y 1 integración omitida por defecto;
-- 91,01 % de cobertura;
+- 29 tests superados y 1 integración omitida por defecto;
+- 91,88 % de cobertura;
 - 16 controles de calidad remotos;
 - dos ejecuciones idempotentes del job;
 - benchmark real del Genie Agent: 5/5.
@@ -311,8 +339,8 @@ uv run pytest tests/integration -q
 ## Abrir los recursos desplegados
 
 ```powershell
-databricks bundle summary -t dev --profile $profile
-databricks bundle open -t dev renewable_operations_dashboard --profile $profile
+databricks bundle summary -t dev --profile $databricksProfile
+databricks bundle open -t dev renewable_operations_dashboard --profile $databricksProfile
 ```
 
 En Enterprise sustituya `dev` por `enterprise`.
@@ -330,11 +358,8 @@ El entregable contiene:
 - capturas del dashboard, Genie Agent y benchmark;
 - modelo de compartición por audiencia;
 - anexos de implementación y reproducción;
-- última diapositiva de guía interna, eliminable antes de enviar al cliente.
-
-La portada pública en PNG, las recomendaciones para LinkedIn/Medium y las
-afirmaciones seguras para comunicación externa se describen en
-[`docs/publication.md`](docs/publication.md).
+- última diapositiva de guía interna, eliminable antes de distribuir la versión
+  final.
 
 ## Cómo compartir el proyecto
 
@@ -363,7 +388,7 @@ Primero previsualice los objetos:
 
 ```powershell
 uv run python scripts/teardown.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog $env:BUNDLE_VAR_catalog `
   --schema $env:BUNDLE_VAR_schema
@@ -372,10 +397,10 @@ uv run python scripts/teardown.py `
 Después elimine exclusivamente los recursos de la prueba:
 
 ```powershell
-databricks bundle destroy -t dev --profile $profile
+databricks bundle destroy -t dev --profile $databricksProfile
 
 uv run python scripts/teardown.py `
-  --profile $profile `
+  --profile $databricksProfile `
   --warehouse-id $warehouseId `
   --catalog $env:BUNDLE_VAR_catalog `
   --schema $env:BUNDLE_VAR_schema `
@@ -383,7 +408,10 @@ uv run python scripts/teardown.py `
 ```
 
 En Enterprise sustituya `dev` por `enterprise`. El script se niega a operar
-sobre otro schema o si encuentra tablas sin el prefijo de la prueba.
+sobre otro schema o si encuentra tablas sin el prefijo de la prueba. La
+confirmación envía a la papelera el Genie Agent del demo y ejecuta
+`DROP SCHEMA ... CASCADE`; use siempre un schema exclusivo y revise la
+previsualización completa.
 
 ## Solución de problemas
 
@@ -400,9 +428,9 @@ sobre otro schema o si encuentra tablas sin el prefijo de la prueba.
 Documentación adicional:
 
 - `docs/architecture.md`
+- `docs/deployment_runbook.md`
 - `docs/genie_configuration.md`
 - `docs/limitations.md`
-- `docs/publication.md`
 - `docs/test_report.md`
 - `presentation/README.md`
 - `CONTRIBUTING.md`

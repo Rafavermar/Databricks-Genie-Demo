@@ -1,8 +1,8 @@
 {
-  "profile": "Rafa Vera",
+  "profile": "<local-profile>",
   "authenticated": true,
-  "masked_host": "https://dbc-78d***3cff.cloud.databricks.com",
-  "masked_identity": "jr***@***",
+  "masked_host": "<redacted>",
+  "masked_identity": "<redacted>",
   "cloud": "AWS",
   "classification": "CONSISTENT_WITH_FREE_EDITION",
   "evidence": [

@@ -8,6 +8,13 @@ from typing import Any
 
 from databricks.sdk import WorkspaceClient
 
+from renewable_operations.deployment_checks import (
+    genie_configuration_uses_namespace,
+    inspect_genie_configuration,
+    list_all_genie_spaces,
+    validate_namespace,
+)
+
 SAMPLE_QUESTIONS = [
     "¿Cuánta energía se generó el último trimestre disponible?",
     "¿Cuál fue la desviación frente a la previsión?",
@@ -135,6 +142,7 @@ def _verified_question_sqls(
 
 def serialized_space(catalog: str, schema: str, use_metric_view: bool) -> str:
     """Build a schema-compliant serialized Genie Space."""
+    validate_namespace(catalog, schema)
     source_key = "metric_views" if use_metric_view else "tables"
     source_name = (
         "gg_renewable_operations_metrics" if use_metric_view else "gg_renewable_operations_semantic"
@@ -203,15 +211,32 @@ def main() -> None:
     serialized = serialized_space(
         arguments.catalog, arguments.schema, not arguments.use_semantic_view
     )
-    response = client.genie.list_spaces()
     matches = [
-        space for space in (response.spaces or []) if space.title == "Renewable Operations Analyst"
+        space
+        for space in list_all_genie_spaces(client)
+        if space.title == "Renewable Operations Analyst"
     ]
     if len(matches) > 1:
         raise RuntimeError("Multiple Genie Spaces share the demo title; refusing to choose")
     if matches:
+        existing = client.genie.get_space(
+            matches[0].space_id,
+            include_serialized_space=True,
+        )
+        if not existing.serialized_space:
+            raise RuntimeError("Existing Genie Space has no readable serialized configuration")
+        existing_configuration = inspect_genie_configuration(existing.serialized_space)
+        if not genie_configuration_uses_namespace(
+            existing_configuration,
+            arguments.catalog,
+            arguments.schema,
+        ):
+            raise RuntimeError(
+                "Existing Genie Space with the demo title uses another "
+                "namespace; refusing to update"
+            )
         result = client.genie.update_space(
-            space_id=matches[0].space_id,
+            space_id=existing.space_id,
             title="Renewable Operations Analyst",
             description="Análisis conversacional de datos renovables exclusivamente sintéticos.",
             warehouse_id=arguments.warehouse_id,

@@ -1,10 +1,13 @@
 # Configuración de Genie
 
 Fuente preferida:
-`workspace.renewable_operations_demo.gg_renewable_operations_metrics`.
+`<catalog>.<schema>.gg_renewable_operations_metrics`.
 
 Fallback:
-`workspace.renewable_operations_demo.gg_renewable_operations_semantic`.
+`<catalog>.<schema>.gg_renewable_operations_semantic`.
+
+El valor predeterminado de `<catalog>.<schema>` es
+`workspace.renewable_operations_demo`; el script aplica los valores del entorno.
 
 El script `scripts/create_or_update_genie.py` usa la API pública de Genie,
 serialización v2, preguntas de ejemplo e instrucciones. Busca primero un único
@@ -31,4 +34,7 @@ La validación posterior debe comprobar:
 4. respuesta a una pregunta de ejemplo;
 5. SQL generado limitado al schema de la demo;
 6. periodo y unidades en la respuesta.
+
+El procedimiento de despliegue y aceptación está en
+[`deployment_runbook.md`](deployment_runbook.md).
 

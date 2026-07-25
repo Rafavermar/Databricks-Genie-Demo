@@ -18,6 +18,12 @@
 - Guía manual exacta si la API de Genie está deshabilitada.
 - Presentación con resultados locales validados si no hay métricas remotas.
 
+## Restricciones de configuración
+
+- `catalog` y `schema` deben comenzar por letra ASCII o `_` y usar únicamente
+  letras ASCII, números y guiones bajos.
+- Genie requiere un SQL warehouse Pro o Serverless.
+
 ## Requiere paso manual
 
 - Revisar y fusionar cambios según las reglas de protección de ramas.
@@ -38,15 +44,13 @@ El repositorio canónico es `Rafavermar/Databricks-Genie-Demo`. Los cambios se
 integran primero en `develop` y después se promueven a `main` mediante pull
 requests. El Git Folder de Databricks sigue `main`.
 
-## Reproducción Enterprise
+## Estado de Enterprise
 
-El target `enterprise` usa modo `production`, pero no aprovisiona recursos de
-cuenta. El catálogo, schema, SQL warehouse, identidad y permisos deben existir
-o asignarse antes del despliegue. La raíz se resuelve bajo la carpeta de la
-identidad desplegadora en `/Workspace/Users`; para automatización se recomienda
-OAuth M2M con service principal y secretos administrados fuera del repositorio.
+El target `enterprise` y el workflow manual están definidos y validados. No se
+ha ejecutado ningún despliegue en un workspace Enterprise. La documentación por
+sí sola no inicia ni modifica recursos.
 
-El workflow manual de GitHub Actions automatiza bundle, job, Genie y smoke
-tests cuando se configura el environment `databricks-demo`. No sustituye la
-revisión corporativa de permisos, redes, políticas, costes ni segregación de
-funciones.
+Cuando se configure el environment `databricks-demo` y alguien ejecute
+manualmente el workflow, este podrá desplegar bundle, job, Genie y smoke tests.
+El catálogo, schema, SQL warehouse, identidad y permisos deben existir antes.
+La raíz se resuelve bajo `/Workspace/Users` para la identidad desplegadora.

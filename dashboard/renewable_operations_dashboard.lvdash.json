@@ -23,7 +23,7 @@
         "  avoided_co2_tonnes,\n",
         "  incident_count,\n",
         "  downtime_hours\n",
-        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n"
+        "FROM gg_renewable_operations_semantic\n"
       ]
     },
     {
@@ -31,10 +31,10 @@
       "displayName": "Actual versus forecast trend",
       "queryLines": [
         "SELECT date, region, technology, asset, 'Real' AS series, actual_generation_mwh AS generation_mwh\n",
-        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n",
+        "FROM gg_renewable_operations_semantic\n",
         "UNION ALL\n",
         "SELECT date, region, technology, asset, 'Prevista' AS series, forecast_generation_mwh AS generation_mwh\n",
-        "FROM workspace.renewable_operations_demo.gg_renewable_operations_semantic\n"
+        "FROM gg_renewable_operations_semantic\n"
       ]
     }
   ],

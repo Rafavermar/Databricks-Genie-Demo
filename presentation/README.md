@@ -14,12 +14,12 @@ despliegue remoto y comprueba sus conteos contra el dataset local determinista.
 La versión contiene 22 diapositivas con notas de presentador,
 arquitectura editable, explicación de Genie One, Genie Agents y Apps, modelo de
 compartición, dos anexos técnicos y una guía interna final que puede eliminarse
-antes de enviar el archivo a un cliente.
+antes de distribuir la versión final.
 
 Los anexos técnicos detallan el job de cuatro tareas, lenguajes, GitHub Actions,
 quality gates y reproducción diferenciada para Free Edition y Enterprise.
 
-Las diapositivas incorporan capturas reales del workspace:
+Las diapositivas incorporan estas capturas:
 
 - `assets/dashboard_executive_v2.png`
 - `assets/dashboard_reliability_v2.png`

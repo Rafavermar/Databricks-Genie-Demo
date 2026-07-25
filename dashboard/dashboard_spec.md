@@ -1,7 +1,8 @@
 # Especificación del dashboard
 
 **Nombre:** Renewable Operations Intelligence  
-**Fuente:** `workspace.renewable_operations_demo.gg_renewable_operations_semantic`  
+**Fuente:** `<catalog>.<schema>.gg_renewable_operations_semantic`; el bundle
+aplica el catálogo y schema de cada target.
 **Clasificación:** datos exclusivamente sintéticos.
 
 La definición serializada contiene dos páginas de análisis y una página técnica

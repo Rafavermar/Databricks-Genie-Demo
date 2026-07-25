@@ -8,11 +8,11 @@ Estado final: **PASS**.
 - `ruff check .`: PASS.
 - `ruff format --check .`: PASS.
 - `mypy src`: PASS.
-- `pytest`: 25 passed, 1 integration test omitido en la suite local.
-- Cobertura: 91,01 %, umbral 80 %.
+- `pytest`: 29 passed, 1 integration test omitido en la suite local.
+- Cobertura: 91,88 %, umbral 80 %.
 - YAML y JSON: PASS.
-- Workflows de GitHub Actions: sintaxis YAML y pasos locales equivalentes PASS;
-  ejecución remota pendiente del primer push.
+- Workflow de calidad de GitHub Actions: PASS.
+- Workflow Enterprise manual: definido y validado; no ejecutado.
 - `databricks bundle schema`: PASS.
 - `databricks bundle validate -t dev`: `Validation OK!`.
 - `databricks bundle validate -t enterprise`: `Validation OK!`.
@@ -22,9 +22,8 @@ Estado final: **PASS**.
 ## Despliegue
 
 - `databricks bundle deploy`: `Deployment complete!`.
-- Job: `136400576344453`.
-- Run 1: `601281688484762`, SUCCESS.
-- Run 2: `1023450519381193`, SUCCESS.
+- Job desplegado correctamente.
+- Dos ejecuciones completas: SUCCESS.
 - Las cuatro tareas terminaron en SUCCESS en ambos runs.
 
 ## Datos e idempotencia
@@ -60,8 +59,8 @@ Regiones: 5. La semantic view y la Metric View responden.
 - PPTX abierto y convertido a PDF con PowerPoint local.
 - Las 22 diapositivas se renderizaron a PNG y se revisaron visualmente.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
-- Capturas reales de Genie One, dos páginas del dashboard, conversación y
-  resultado de benchmark incorporadas.
+- Capturas de Genie One, dos páginas del dashboard, conversación y resultado de
+  benchmark incorporadas.
 - Infografía plana y jerarquía editable de componentes incorporadas.
 
 Las evidencias saneadas se guardan en `evidence/`. No se guardan correos,
