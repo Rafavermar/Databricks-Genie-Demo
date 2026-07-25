@@ -8,6 +8,11 @@ on:
         required: true
         type: boolean
         default: true
+      use_semantic_view:
+        description: Use the Semantic View instead of the Metric View for Genie
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -80,11 +85,19 @@ jobs:
 
       - name: Configure Genie Agent
         if: ${{ inputs.configure_genie }}
-        run: >-
-          uv run python scripts/create_or_update_genie.py
-          --warehouse-id "$BUNDLE_VAR_warehouse_id"
-          --catalog "$BUNDLE_VAR_catalog"
-          --schema "$BUNDLE_VAR_schema"
+        shell: bash
+        env:
+          USE_SEMANTIC_VIEW: ${{ inputs.use_semantic_view }}
+        run: |
+          args=(
+            --warehouse-id "$BUNDLE_VAR_warehouse_id"
+            --catalog "$BUNDLE_VAR_catalog"
+            --schema "$BUNDLE_VAR_schema"
+          )
+          if [[ "$USE_SEMANTIC_VIEW" == "true" ]]; then
+            args+=(--use-semantic-view)
+          fi
+          uv run python scripts/create_or_update_genie.py "${args[@]}"
 
       - name: Execute remote smoke tests
         if: ${{ inputs.configure_genie }}

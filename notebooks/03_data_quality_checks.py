@@ -5,12 +5,16 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 dbutils.widgets.text("catalog", "workspace")  # noqa: F821
 dbutils.widgets.text("schema", "renewable_operations_demo")  # noqa: F821
 catalog = dbutils.widgets.get("catalog")  # noqa: F821
 schema = dbutils.widgets.get("schema")  # noqa: F821
+identifier_pattern = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+if identifier_pattern.fullmatch(catalog) is None or identifier_pattern.fullmatch(schema) is None:
+    raise ValueError("catalog and schema must be simple SQL identifiers")
 
 namespace = f"`{catalog}`.`{schema}`"
 tables = {

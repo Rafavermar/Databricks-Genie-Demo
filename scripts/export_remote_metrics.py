@@ -10,6 +10,12 @@ from typing import Any
 
 from databricks.sdk import WorkspaceClient
 
+from renewable_operations.deployment_checks import (
+    statement_state_name,
+    validate_namespace,
+    wait_for_statement,
+)
+
 
 def _data(client: WorkspaceClient, warehouse_id: str, statement: str) -> list[list[str]]:
     response = client.statement_execution.execute_statement(
@@ -17,6 +23,11 @@ def _data(client: WorkspaceClient, warehouse_id: str, statement: str) -> list[li
         statement=statement,
         wait_timeout="50s",
     )
+    response = wait_for_statement(client, response)
+    if statement_state_name(response.status) != "SUCCEEDED":
+        raise RuntimeError(
+            f"Remote metric query failed; state={statement_state_name(response.status)}"
+        )
     if response.result is None or response.result.data_array is None:
         state = response.status.state if response.status else "UNKNOWN"
         raise RuntimeError(f"Remote metric query returned no data; state={state}")
@@ -35,11 +46,7 @@ def main() -> None:
         default="evidence/remote_presentation_metrics.json",
     )
     arguments = parser.parse_args()
-    if (
-        not arguments.catalog.replace("_", "").isalnum()
-        or not arguments.schema.replace("_", "").isalnum()
-    ):
-        raise ValueError("catalog and schema must be simple SQL identifiers")
+    validate_namespace(arguments.catalog, arguments.schema)
     client = WorkspaceClient(profile=arguments.profile)
     semantic = f"`{arguments.catalog}`.`{arguments.schema}`.`gg_renewable_operations_semantic`"
     summary_row = _data(

@@ -29,8 +29,8 @@ REMOTE_EVIDENCE = ROOT / "evidence" / "remote_presentation_metrics.json"
 ASSETS = ROOT / "presentation" / "assets"
 DASHBOARD_SCREENSHOT = ASSETS / "dashboard_executive_v2.png"
 DASHBOARD_RELIABILITY_SCREENSHOT = ASSETS / "dashboard_reliability_v2.png"
-GENIE_SCREENSHOT = ASSETS / "genie_agent.png"
 GENIE_CONVERSATION_SCREENSHOT = ASSETS / "genie_conversation.png"
+GENIE_SCREENSHOT = GENIE_CONVERSATION_SCREENSHOT
 GENIE_ONE_HOME_SCREENSHOT = ASSETS / "genie_one_home.png"
 GENIE_BENCHMARK_SCREENSHOT = ASSETS / "genie_benchmark_results.png"
 
@@ -282,9 +282,9 @@ def _real_screenshot(
     width: float,
     height: float,
     *,
-    crop_top_pixels: int = 128,
+    crop_top_pixels: int = 0,
 ) -> None:
-    """Insert a real browser capture without distorting its aspect ratio."""
+    """Insert a sanitized application capture without distorting its aspect ratio."""
     if not path.exists():
         raise FileNotFoundError(f"Required screenshot not found: {path}")
 
@@ -461,7 +461,7 @@ def _architecture_slide(presentation: PresentationType) -> None:
 
 
 def build_legacy_presentation(metrics: dict[str, Any]) -> PresentationType:
-    """Build all 12 slides."""
+    """Build the unused legacy deck retained for design reference."""
     presentation = Presentation()
     presentation.slide_width = SLIDE_WIDTH
     presentation.slide_height = SLIDE_HEIGHT
@@ -635,7 +635,7 @@ def build_legacy_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "Dashboard ejecutivo",
-        "Captura real del dashboard AI/BI publicado · paleta validada en tema oscuro",
+        "Dashboard AI/BI publicado · paleta validada en tema oscuro",
     )
     _real_screenshot(slide, DASHBOARD_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _textbox(
@@ -660,7 +660,7 @@ def build_legacy_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "Conversación con Genie",
-        "Captura real del agente desplegado · fuente semántica gobernada",
+        "Agent desplegado · fuente semántica gobernada",
     )
     _real_screenshot(slide, GENIE_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _textbox(
@@ -773,7 +773,7 @@ def build_legacy_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(presentation, "Controles y calidad")
     controls = [
         ("Infraestructura como código", "Bundle validable y reproducible"),
-        ("Tests", "21 tests · 91,0 % cobertura"),
+        ("Tests", "29 tests · 92,0 % cobertura"),
         ("Data quality", "Claves, rangos, conteos y coherencia"),
         ("Idempotencia", "Segunda ejecución sin duplicados"),
         ("Unity Catalog", "Namespace aislado y comentado"),
@@ -1303,7 +1303,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "Genie One: un único punto de entrada para negocio",
-        "Captura real · sin notebooks, clusters ni SQL como punto de partida",
+        "Sin notebooks, clusters ni SQL como punto de partida",
     )
     _real_screenshot(slide, GENIE_ONE_HOME_SCREENSHOT, 0.72, 1.3, 8.25, 5.22)
     benefits = [
@@ -1558,7 +1558,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "AI/BI Dashboard · visión ejecutiva",
-        "Captura real publicada · filtros globales y KPIs gobernados",
+        "Filtros globales y KPIs gobernados",
     )
     _real_screenshot(slide, DASHBOARD_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _box(slide, 0.78, 6.14, 11.78, 0.55, fill=WHITE, line=LIGHT_LINE)
@@ -1586,7 +1586,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "AI/BI Dashboard · fiabilidad operativa",
-        "Captura real · nombres de instalación explícitos y dimensiones separadas",
+        "Nombres de instalación explícitos y dimensiones separadas",
     )
     _real_screenshot(slide, DASHBOARD_RELIABILITY_SCREENSHOT, 0.68, 1.25, 11.98, 5.35)
     _box(slide, 0.78, 6.14, 11.78, 0.55, fill=WHITE, line=LIGHT_LINE)
@@ -1950,7 +1950,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         _textbox(slide, body, 9.15, y, 2.95, 0.3, size=10, color=MID_GRAY)
     _textbox(
         slide,
-        "Recomendación: priorizar la App solo cuando el cliente quiera cerrar el ciclo de acción.",
+        "Recomendación: priorizar la App cuando sea necesario cerrar el ciclo de acción.",
         1.2,
         6.58,
         10.9,
@@ -1963,15 +1963,15 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     _notes(
         slide,
         "Separar con transparencia lo demostrado de lo que forma parte del roadmap.",
-        "Explicamos cómo se comparte correctamente este tipo de demo.",
+        "Pasamos al modelo de acceso y entrega.",
         "1:15",
     )
 
     # 18 · Sharing
     slide = _dark_slide(
         presentation,
-        "Cómo compartir correctamente el demo",
-        "El canal depende de quién lo recibe y para qué",
+        "Acceso y entrega de los componentes",
+        "La forma de acceso depende del rol, el entorno y los permisos",
     )
     sharing = [
         (
@@ -2127,7 +2127,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         (
             "02",
             "02_transform_and_publish.py",
-            "Calcula KPI diario y publica Semantic View y Metric View.",
+            "Publica KPI, Semantic View y Metric View si está disponible.",
             TEAL,
         ),
         (
@@ -2177,9 +2177,9 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     _textbox(slide, "Quality gates", 8.72, 4.74, 3.5, 0.36, size=16, color=TEAL, bold=True)
     quality_items = [
         "Ruff + Mypy",
-        "Pytest: 25 passed · 91 % cobertura",
+        "Pytest: 29 passed · 92 % cobertura",
         "Smoke test + integración opt-in",
-        "16 controles remotos",
+        "16 DQ + 8 SQL de smoke",
         "Benchmark Genie: 5/5",
     ]
     for index, item in enumerate(quality_items):
@@ -2222,7 +2222,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         ("Target", "enterprise · modo production"),
         ("Compute", "serverless recomendado"),
         ("Datos", "catalog/schema corporativos autorizados"),
-        ("SQL", "warehouse existente con CAN USE"),
+        ("SQL", "warehouse Pro/Serverless con CAN USE"),
         ("Auth", "U2M local · M2M en CI/CD"),
         ("Gobierno", "mínimo privilegio y permisos de bundle"),
     ]
@@ -2245,13 +2245,11 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         bold=True,
         align=PP_ALIGN.CENTER,
     )
-    _source_note(
-        slide, "Detalle reproducible: README.md · docs.databricks.com/aws/en/dev-tools/bundles/"
-    )
+    _source_note(slide, "Detalle reproducible: README.md · docs/deployment_runbook.md")
     _notes(
         slide,
         "Aclarar que el bundle no crea infraestructura de cuenta ni un SQL warehouse.",
-        "El README contiene los comandos exactos para ambos targets.",
+        "El runbook contiene los comandos exactos para ambos targets.",
         "1:20",
     )
 
@@ -2259,7 +2257,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     slide = _base_slide(
         presentation,
         "Guía interna · recorrido recomendado",
-        "Última diapositiva opcional; puede eliminarse antes de compartir la versión con cliente",
+        "Última diapositiva opcional; puede eliminarse antes de distribuir la versión final",
     )
     _pill(slide, "USO INTERNO", 10.9, 0.54, 1.45, fill=ORANGE)
     walkthrough = [
@@ -2291,7 +2289,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         )
     _textbox(
         slide,
-        "ELIMINAR ESTA DIAPOSITIVA SI EL ARCHIVO SE ENVÍA DIRECTAMENTE AL CLIENTE",
+        "ELIMINAR ESTA DIAPOSITIVA ANTES DE DISTRIBUIR LA VERSIÓN FINAL",
         1.35,
         6.23,
         10.65,
@@ -2305,7 +2303,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         slide,
         (
             "Guía para el equipo presentador. Esta diapositiva se mantiene al final "
-            "para que pueda eliminarse sin alterar la narrativa del cliente."
+            "para que pueda eliminarse sin alterar la narrativa principal."
         ),
         "Fin del anexo interno.",
         "1:10",
