@@ -2253,62 +2253,6 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         "1:20",
     )
 
-    # 22 · Internal walkthrough, intentionally last
-    slide = _base_slide(
-        presentation,
-        "Guía interna · recorrido recomendado",
-        "Última diapositiva opcional; puede eliminarse antes de distribuir la versión final",
-    )
-    _pill(slide, "USO INTERNO", 10.9, 0.54, 1.45, fill=ORANGE)
-    walkthrough = [
-        ("01", "Contexto", "Explicar objetivo y datos sintéticos"),
-        ("02", "KPIs", "Detectar desviación en Executive Overview"),
-        ("03", "Diagnóstico", "Bajar a fiabilidad e instalaciones"),
-        ("04", "Pregunta", "Consultar los tres riesgos en Genie"),
-        ("05", "Evidencia", "Mostrar SQL, tabla y gráfico"),
-        ("06", "Confianza", "Abrir Benchmark 5/5"),
-        ("07", "Escala", "Enseñar Genie One y compartir"),
-        ("08", "Acción", "Proponer App como siguiente paso"),
-    ]
-    for index, (number, title, body) in enumerate(walkthrough):
-        row, column = divmod(index, 4)
-        x, y = 0.58 + column * 3.18, 1.45 + row * 2.25
-        _box(slide, x, y, 2.88, 1.78, fill=GRAY, line=(RED, NAVY, TEAL, ORANGE)[column])
-        _textbox(slide, number, x + 0.16, y + 0.14, 0.52, 0.4, size=15, color=RED, bold=True)
-        _textbox(slide, title, x + 0.78, y + 0.14, 1.82, 0.4, size=14, bold=True)
-        _textbox(
-            slide,
-            body,
-            x + 0.18,
-            y + 0.77,
-            2.46,
-            0.65,
-            size=10.5,
-            color=MID_GRAY,
-            valign=MSO_ANCHOR.TOP,
-        )
-    _textbox(
-        slide,
-        "ELIMINAR ESTA DIAPOSITIVA ANTES DE DISTRIBUIR LA VERSIÓN FINAL",
-        1.35,
-        6.23,
-        10.65,
-        0.45,
-        size=14,
-        color=RED,
-        bold=True,
-        align=PP_ALIGN.CENTER,
-    )
-    _notes(
-        slide,
-        (
-            "Guía para el equipo presentador. Esta diapositiva se mantiene al final "
-            "para que pueda eliminarse sin alterar la narrativa principal."
-        ),
-        "Fin del anexo interno.",
-        "1:10",
-    )
-
     return presentation
 
 
@@ -2316,7 +2260,7 @@ def validate_presentation(path: Path) -> dict[str, Any]:
     """Validate structure, notes, canvas bounds, and prohibited placeholders."""
     presentation = Presentation(path)
     failures: list[str] = []
-    expected_slides = 22
+    expected_slides = 21
     if len(presentation.slides) != expected_slides:
         failures.append(f"expected {expected_slides} slides, found {len(presentation.slides)}")
     prohibited = ("TODO", "Iberdrola")
