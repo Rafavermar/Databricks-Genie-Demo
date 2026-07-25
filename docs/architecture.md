@@ -2,7 +2,8 @@
 
 ## Principios
 
-- Un único namespace aislado: `workspace.renewable_operations_demo`.
+- Un único namespace aislado; el valor predeterminado es
+  `workspace.renewable_operations_demo`.
 - Objetos con prefijo `gg_renewable_`.
 - Datos sintéticos generados con semilla fija.
 - Compute exclusivamente serverless.
@@ -30,6 +31,9 @@
 - Free Edition se mantiene como recorrido interactivo con OAuth U2M.
 - El workflow de despliegue no aprovisiona catálogo, schema, warehouse,
   service principal ni políticas corporativas.
+
+El procedimiento operativo completo está en
+[`deployment_runbook.md`](deployment_runbook.md).
 
 ## Modelo
 

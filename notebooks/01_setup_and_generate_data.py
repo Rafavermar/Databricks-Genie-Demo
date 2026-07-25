@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -18,7 +19,8 @@ schema = dbutils.widgets.get("schema")  # noqa: F821
 seed = int(dbutils.widgets.get("seed"))  # noqa: F821
 configured_source_root = dbutils.widgets.get("source_root")  # noqa: F821
 
-if not catalog.replace("_", "").isalnum() or not schema.replace("_", "").isalnum():
+identifier_pattern = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+if identifier_pattern.fullmatch(catalog) is None or identifier_pattern.fullmatch(schema) is None:
     raise ValueError("catalog and schema must be simple SQL identifiers")
 
 source_candidates = [

@@ -4,22 +4,25 @@
   "ruff_format_check": "PASS",
   "mypy": "PASS",
   "pytest": {
-    "passed": 21,
+    "passed": 29,
     "skipped": 1,
-    "coverage_pct": 91.01,
+    "coverage_pct": 91.88,
     "coverage_threshold_pct": 80
   },
   "yaml_validation": "PASS",
   "json_validation": "PASS",
   "powerpoint": {
-    "slides": 12,
-    "notes": 12,
+    "slides": 22,
+    "notes": 22,
     "canvas_failures": 0,
     "pdf_created": true,
     "visual_review": "PASS",
-    "real_screenshots": [
-      "dashboard_executive.png",
-      "genie_agent.png"
+    "screenshots": [
+      "dashboard_executive_v2.png",
+      "dashboard_reliability_v2.png",
+      "genie_one_home.png",
+      "genie_conversation.png",
+      "genie_benchmark_results.png"
     ]
   }
 }

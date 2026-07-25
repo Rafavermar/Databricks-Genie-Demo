@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 
 from renewable_operations.deployment_checks import (
     build_remote_checks,
@@ -60,3 +61,17 @@ def test_dashboard_distinguishes_installations_from_operators() -> None:
     assert "Equipo operador" in dashboard_text
     assert "Azul Reservoir" not in dashboard_text
     assert "Verde Cascade" not in dashboard_text
+
+
+def test_dashboard_uses_the_bundle_catalog_and_schema() -> None:
+    root = Path(__file__).parents[2]
+    resource = yaml.safe_load((root / "resources" / "dashboard.yml").read_text(encoding="utf-8"))
+    dashboard_resource = resource["resources"]["dashboards"]["renewable_operations_dashboard"]
+    assert dashboard_resource["dataset_catalog"] == "${var.catalog}"
+    assert dashboard_resource["dataset_schema"] == "${var.schema}"
+
+    dashboard_text = (root / "dashboard" / "renewable_operations_dashboard.lvdash.json").read_text(
+        encoding="utf-8"
+    )
+    assert "workspace.renewable_operations_demo" not in dashboard_text
+    assert "FROM gg_renewable_operations_semantic" in dashboard_text

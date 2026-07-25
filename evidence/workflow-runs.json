@@ -1,9 +1,9 @@
 {
   "job_name": "Renewable Operations Demo Setup",
-  "job_id": "136400576344453",
+  "job_id": "<redacted>",
   "runs": [
     {
-      "run_id": "601281688484762",
+      "run_id": "<redacted>",
       "life_cycle_state": "TERMINATED",
       "result_state": "SUCCESS",
       "tasks": {
@@ -14,7 +14,7 @@
       }
     },
     {
-      "run_id": "1023450519381193",
+      "run_id": "<redacted>",
       "life_cycle_state": "TERMINATED",
       "result_state": "SUCCESS",
       "tasks": {

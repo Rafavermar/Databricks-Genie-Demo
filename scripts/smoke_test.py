@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import time
 from dataclasses import asdict
 from typing import Any
 
@@ -13,30 +12,41 @@ from databricks.sdk import WorkspaceClient
 from renewable_operations.deployment_checks import (
     build_remote_checks,
     dashboard_palette_has_dark_contrast,
+    genie_configuration_uses_namespace,
+    inspect_genie_configuration,
+    list_all_genie_spaces,
+    wait_for_statement,
 )
 
 
-def _first_value(client: WorkspaceClient, warehouse_id: str, statement: str) -> int:
+def _first_value(
+    client: WorkspaceClient,
+    warehouse_id: str,
+    statement: str,
+    *,
+    catalog: str | None = None,
+    schema: str | None = None,
+) -> int:
     response = client.statement_execution.execute_statement(
         warehouse_id=warehouse_id,
         statement=statement,
         wait_timeout="50s",
+        catalog=catalog,
+        schema=schema,
     )
-    if response.status is not None and str(response.status.state) == "PENDING":
-        if response.statement_id is None:
-            raise RuntimeError("SQL statement returned PENDING without an ID")
-        for _ in range(30):
-            time.sleep(2)
-            response = client.statement_execution.get_statement(response.statement_id)
-            if response.status is not None and str(response.status.state) != "PENDING":
-                break
+    response = wait_for_statement(client, response)
     if response.result is None or not response.result.data_array:
         state = response.status.state if response.status else "UNKNOWN"
         raise RuntimeError(f"SQL statement did not return data; state={state}")
     return int(response.result.data_array[0][0])
 
 
-def _dashboard_summary(client: WorkspaceClient, warehouse_id: str) -> dict[str, Any]:
+def _dashboard_summary(
+    client: WorkspaceClient,
+    warehouse_id: str,
+    catalog: str,
+    schema: str,
+) -> dict[str, Any]:
     dashboards = [
         dashboard
         for dashboard in client.lakeview.list()
@@ -57,6 +67,8 @@ def _dashboard_summary(client: WorkspaceClient, warehouse_id: str) -> dict[str, 
             client,
             warehouse_id,
             f"SELECT COUNT(*) FROM ({query.rstrip().rstrip(';')}) AS dashboard_dataset",
+            catalog=catalog,
+            schema=schema,
         )
         dataset_results.append(
             {
@@ -79,15 +91,45 @@ def _dashboard_summary(client: WorkspaceClient, warehouse_id: str) -> dict[str, 
     }
 
 
-def _genie_summary(client: WorkspaceClient) -> dict[str, Any]:
-    response = client.genie.list_spaces()
+def _genie_summary(
+    client: WorkspaceClient,
+    warehouse_id: str,
+    catalog: str,
+    schema: str,
+) -> dict[str, Any]:
     spaces = [
-        space for space in (response.spaces or []) if space.title == "Renewable Operations Analyst"
+        space
+        for space in list_all_genie_spaces(client)
+        if space.title == "Renewable Operations Analyst"
     ]
+    if len(spaces) != 1:
+        return {
+            "exists": False,
+            "count": len(spaces),
+            "space_id": None,
+            "configuration_valid": False,
+        }
+    space = client.genie.get_space(
+        spaces[0].space_id,
+        include_serialized_space=True,
+    )
+    if not space.serialized_space:
+        raise RuntimeError("Genie Space exists without a readable serialized configuration")
+    configuration = inspect_genie_configuration(space.serialized_space)
+    warehouse_matches = space.warehouse_id == warehouse_id
+    source_matches = genie_configuration_uses_namespace(configuration, catalog, schema)
+    benchmarks_configured = configuration.benchmark_count == 5
     return {
-        "exists": len(spaces) == 1,
-        "count": len(spaces),
-        "space_id": spaces[0].space_id if len(spaces) == 1 else None,
+        "exists": True,
+        "count": 1,
+        "space_id": space.space_id,
+        "warehouse_id": space.warehouse_id,
+        "warehouse_matches": warehouse_matches,
+        "data_sources": configuration.source_identifiers,
+        "source_matches": source_matches,
+        "benchmark_count": configuration.benchmark_count,
+        "benchmarks_configured": benchmarks_configured,
+        "configuration_valid": (warehouse_matches and source_matches and benchmarks_configured),
     }
 
 
@@ -110,7 +152,13 @@ def main() -> None:
     client = WorkspaceClient(profile=arguments.profile) if arguments.profile else WorkspaceClient()
     check_results: list[dict[str, Any]] = []
     for check in build_remote_checks(arguments.catalog, arguments.schema):
-        observed = _first_value(client, arguments.warehouse_id, check.query)
+        observed = _first_value(
+            client,
+            arguments.warehouse_id,
+            check.query,
+            catalog=arguments.catalog,
+            schema=arguments.schema,
+        )
         check_results.append(
             {
                 **asdict(check),
@@ -118,9 +166,19 @@ def main() -> None:
                 "passed": observed == check.expected_value,
             }
         )
-    dashboard = _dashboard_summary(client, arguments.warehouse_id)
+    dashboard = _dashboard_summary(
+        client,
+        arguments.warehouse_id,
+        arguments.catalog,
+        arguments.schema,
+    )
     try:
-        genie = _genie_summary(client)
+        genie = _genie_summary(
+            client,
+            arguments.warehouse_id,
+            arguments.catalog,
+            arguments.schema,
+        )
     except Exception as error:
         genie = {"exists": False, "error": f"{type(error).__name__}: {str(error)[:300]}"}
     failures = [result["name"] for result in check_results if not result["passed"]]
@@ -130,8 +188,15 @@ def main() -> None:
         failures.append("dashboard_dataset_queries")
     elif not dashboard["dark_theme_contrast_pass"]:
         failures.append("dashboard_dark_theme_contrast")
-    if arguments.require_genie and not genie["exists"]:
-        failures.append("genie_exists")
+    if arguments.require_genie:
+        if not genie["exists"]:
+            failures.append("genie_exists")
+        elif not genie.get("warehouse_matches"):
+            failures.append("genie_warehouse")
+        elif not genie.get("source_matches"):
+            failures.append("genie_data_source")
+        elif not genie.get("benchmarks_configured"):
+            failures.append("genie_benchmarks")
     report = {
         "status": "PASS" if not failures else "FAIL",
         "sql_checks": check_results,

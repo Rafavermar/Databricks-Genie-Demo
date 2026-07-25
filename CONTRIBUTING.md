@@ -35,6 +35,9 @@ databricks bundle validate --target dev
 databricks bundle validate --target enterprise
 ```
 
+Consulte `docs/deployment_runbook.md` para el ciclo completo de integración,
+aceptación, actualización, rollback y retirada.
+
 ## Convenciones del demo
 
 - Todos los datos, instalaciones, responsables e incidencias son sintéticos.
@@ -42,7 +45,7 @@ databricks bundle validate --target enterprise
 - El schema predeterminado es `renewable_operations_demo`.
 - No se versionan tokens, cookies, perfiles, hosts privados ni evidencias sin
   sanear.
-- El SVG es la fuente editable de la portada; el PNG es el activo público.
+- El SVG es la fuente editable de la portada; el PNG es el activo versionado.
 - Si cambia el relato o una métrica, regenere PPTX y PDF y revise visualmente
   las diapositivas afectadas.
 
