@@ -12,8 +12,8 @@
   "yaml_validation": "PASS",
   "json_validation": "PASS",
   "powerpoint": {
-    "slides": 22,
-    "notes": 22,
+    "slides": 21,
+    "notes": 21,
     "canvas_failures": 0,
     "pdf_created": true,
     "visual_review": "PASS",

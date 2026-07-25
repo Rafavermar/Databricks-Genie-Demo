@@ -2,9 +2,8 @@
 
 ## Unreleased
 
-- Presentación ampliada a 22 diapositivas y PDF regenerado.
-- Narrativa refinada, cierre en la diapositiva 19 y guía interna movida
-  al final para que pueda eliminarse sin afectar al relato.
+- Presentación consolidada en 21 diapositivas y PDF regenerado.
+- Narrativa refinada y entregable público sin contenido de uso interno.
 - Anexos de implementación y reproducción para Free Edition y Enterprise.
 - Portada PNG 16:9 de arquitectura técnica incorporada al README, con SVG
   editable conservado como fuente.
