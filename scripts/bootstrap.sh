@@ -2,9 +2,9 @@
 set -euo pipefail
 
 if command -v uv >/dev/null 2>&1; then
-  uv sync
+  uv sync --locked --all-groups
 else
   python -m pip install --upgrade uv
-  uv sync
+  uv sync --locked --all-groups
 fi
 

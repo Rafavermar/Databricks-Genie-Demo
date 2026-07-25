@@ -94,12 +94,20 @@ def _genie_summary(client: WorkspaceClient) -> dict[str, Any]:
 def main() -> None:
     """Run all smoke checks and emit JSON."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", required=True)
+    parser.add_argument(
+        "--profile",
+        help="Optional Databricks CLI profile; omit it to use unified authentication variables.",
+    )
     parser.add_argument("--catalog", default="workspace")
     parser.add_argument("--schema", default="renewable_operations_demo")
     parser.add_argument("--warehouse-id", required=True)
+    parser.add_argument(
+        "--require-genie",
+        action="store_true",
+        help="Fail when exactly one demo Genie Space cannot be verified.",
+    )
     arguments = parser.parse_args()
-    client = WorkspaceClient(profile=arguments.profile)
+    client = WorkspaceClient(profile=arguments.profile) if arguments.profile else WorkspaceClient()
     check_results: list[dict[str, Any]] = []
     for check in build_remote_checks(arguments.catalog, arguments.schema):
         observed = _first_value(client, arguments.warehouse_id, check.query)
@@ -122,6 +130,8 @@ def main() -> None:
         failures.append("dashboard_dataset_queries")
     elif not dashboard["dark_theme_contrast_pass"]:
         failures.append("dashboard_dark_theme_contrast")
+    if arguments.require_genie and not genie["exists"]:
+        failures.append("genie_exists")
     report = {
         "status": "PASS" if not failures else "FAIL",
         "sql_checks": check_results,

@@ -1,0 +1,96 @@
+name: Deploy demo to Databricks
+
+on:
+  workflow_dispatch:
+    inputs:
+      configure_genie:
+        description: Configure Genie and execute remote smoke tests
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: databricks-enterprise-demo
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Validate, deploy and verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: databricks-demo
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+      BUNDLE_VAR_catalog: ${{ vars.DATABRICKS_CATALOG }}
+      BUNDLE_VAR_schema: ${{ vars.DATABRICKS_SCHEMA }}
+      BUNDLE_VAR_warehouse_id: ${{ vars.DATABRICKS_WAREHOUSE_ID }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate required environment configuration
+        shell: bash
+        run: |
+          required=(
+            DATABRICKS_HOST
+            DATABRICKS_CLIENT_ID
+            DATABRICKS_CLIENT_SECRET
+            BUNDLE_VAR_catalog
+            BUNDLE_VAR_schema
+            BUNDLE_VAR_warehouse_id
+          )
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::$name is not configured in the databricks-demo environment"
+              exit 1
+            fi
+          done
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Enterprise bundle
+        run: databricks bundle validate --target enterprise
+
+      - name: Deploy Enterprise bundle
+        run: databricks bundle deploy --target enterprise
+
+      - name: Run the setup workflow
+        run: databricks bundle run --target enterprise renewable_operations_setup
+
+      - name: Install uv
+        if: ${{ inputs.configure_genie }}
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Python
+        if: ${{ inputs.configure_genie }}
+        run: uv python install 3.12
+
+      - name: Synchronize locked dependencies
+        if: ${{ inputs.configure_genie }}
+        run: uv sync --locked
+
+      - name: Configure Genie Agent
+        if: ${{ inputs.configure_genie }}
+        run: >-
+          uv run python scripts/create_or_update_genie.py
+          --warehouse-id "$BUNDLE_VAR_warehouse_id"
+          --catalog "$BUNDLE_VAR_catalog"
+          --schema "$BUNDLE_VAR_schema"
+
+      - name: Execute remote smoke tests
+        if: ${{ inputs.configure_genie }}
+        run: >-
+          uv run python scripts/smoke_test.py
+          --warehouse-id "$BUNDLE_VAR_warehouse_id"
+          --catalog "$BUNDLE_VAR_catalog"
+          --schema "$BUNDLE_VAR_schema"
+          --require-genie
