@@ -8,6 +8,8 @@
 - Compute exclusivamente serverless.
 - Unity Catalog como frontera de gobierno.
 - El bundle es la fuente de despliegue; Git es la fuente de versiones.
+- El SQL warehouse es una dependencia explícita del entorno, nunca un ID
+  heredado del workspace del autor.
 
 ## Flujo
 
@@ -18,6 +20,16 @@
 5. Siempre se mantiene una vista SQL semántica compatible.
 6. Dashboard y Genie consumen únicamente la capa autorizada.
 7. Los notebooks finales validan claves, conteos, rangos y coherencia.
+
+## Automatización
+
+- `quality.yml` protege `develop` y `main` con lint, formato, tipos, tests y
+  validación de la generación del PowerPoint.
+- `databricks-deploy.yml` ofrece un despliegue Enterprise manual con OAuth M2M,
+  GitHub Environment, ejecución del job, configuración de Genie y smoke tests.
+- Free Edition se mantiene como recorrido interactivo con OAuth U2M.
+- El workflow de despliegue no aprovisiona catálogo, schema, warehouse,
+  service principal ni políticas corporativas.
 
 ## Modelo
 

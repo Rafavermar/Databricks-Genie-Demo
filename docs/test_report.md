@@ -11,8 +11,13 @@ Estado final: **PASS**.
 - `pytest`: 25 passed, 1 integration test omitido en la suite local.
 - Cobertura: 91,01 %, umbral 80 %.
 - YAML y JSON: PASS.
+- Workflows de GitHub Actions: sintaxis YAML y pasos locales equivalentes PASS;
+  ejecución remota pendiente del primer push.
 - `databricks bundle schema`: PASS.
-- `databricks bundle validate`: `Validation OK!`.
+- `databricks bundle validate -t dev`: `Validation OK!`.
+- `databricks bundle validate -t enterprise`: `Validation OK!`.
+- El warehouse se proporciona como variable de entorno y no está embebido en
+  el bundle.
 
 ## Despliegue
 
@@ -50,10 +55,10 @@ Regiones: 5. La semantic view y la Metric View responden.
 
 ## Presentación
 
-- 20 diapositivas y 20 bloques de notas.
+- 22 diapositivas y 22 bloques de notas.
 - Ningún elemento fuera del canvas.
 - PPTX abierto y convertido a PDF con PowerPoint local.
-- Las 20 diapositivas se renderizaron a PNG y se revisaron visualmente.
+- Las 22 diapositivas se renderizaron a PNG y se revisaron visualmente.
 - Los KPIs proceden de agregados SQL del despliegue remoto.
 - Capturas reales de Genie One, dos páginas del dashboard, conversación y
   resultado de benchmark incorporadas.

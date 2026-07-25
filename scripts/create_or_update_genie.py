@@ -190,13 +190,16 @@ def serialized_space(catalog: str, schema: str, use_metric_view: bool) -> str:
 def main() -> None:
     """Create or update the named Genie Space."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", required=True)
+    parser.add_argument(
+        "--profile",
+        help="Optional Databricks CLI profile; omit it to use unified authentication variables.",
+    )
     parser.add_argument("--catalog", default="workspace")
     parser.add_argument("--schema", default="renewable_operations_demo")
     parser.add_argument("--warehouse-id", required=True)
     parser.add_argument("--use-semantic-view", action="store_true")
     arguments = parser.parse_args()
-    client = WorkspaceClient(profile=arguments.profile)
+    client = WorkspaceClient(profile=arguments.profile) if arguments.profile else WorkspaceClient()
     serialized = serialized_space(
         arguments.catalog, arguments.schema, not arguments.use_semantic_view
     )

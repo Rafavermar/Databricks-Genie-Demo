@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Arquitectura de inteligencia operativa para energía renovable con Databricks Genie</title>
+  <desc id="description">Flujo técnico reproducible desde datos sintéticos y GitHub hasta un job serverless, tablas Delta, Unity Catalog, dashboard, Genie Agent y Genie One.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1b2533" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6B7785"/>
+    </marker>
+    <style>
+      .title { font: 700 38px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .subtitle { font: 400 18px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
+      .platform-label { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #1B2533; letter-spacing: 0.8px; }
+      .step { font: 700 13px "Segoe UI", Arial, sans-serif; fill: #FFFFFF; }
+      .card-title { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .card-copy { font: 400 14px "Segoe UI", Arial, sans-serif; fill: #526170; }
+      .small { font: 600 12px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
+      .tag { font: 600 12px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .white-title { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #FFFFFF; }
+      .white-copy { font: 400 13px "Segoe UI", Arial, sans-serif; fill: #E7EBEF; }
+      .flow { fill: none; stroke: #6B7785; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="14" height="900" fill="#FF3621"/>
+
+  <text x="800" y="68" text-anchor="middle" class="title">Inteligencia operativa para energía renovable con Databricks Genie</text>
+  <text x="800" y="108" text-anchor="middle" class="subtitle">Arquitectura reproducible · datos sintéticos · procesamiento serverless · gobierno y calidad</text>
+
+  <!-- External inputs -->
+  <rect x="54" y="224" width="238" height="220" rx="20" fill="#F7F9FB" stroke="#D9DFE5" stroke-width="2" filter="url(#shadow)"/>
+  <g transform="translate(78 252) scale(1.8)" fill="#3776AB">
+    <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>
+  </g>
+  <text x="132" y="275" class="card-title">Datos sintéticos</text>
+  <text x="78" y="330" class="card-copy">Python determinista</text>
+  <text x="78" y="360" class="card-copy">10 instalaciones</text>
+  <text x="78" y="390" class="card-copy">5.460 días-activo</text>
+  <text x="78" y="420" class="card-copy">15 incidencias</text>
+
+  <rect x="54" y="500" width="238" height="188" rx="20" fill="#F7F9FB" stroke="#D9DFE5" stroke-width="2" filter="url(#shadow)"/>
+  <g transform="translate(78 528) scale(1.8)" fill="#181717">
+    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  </g>
+  <text x="132" y="551" class="card-title">Código y entrega</text>
+  <text x="78" y="608" class="card-copy">GitHub · Git Flow</text>
+  <text x="78" y="638" class="card-copy">Declarative Automation Bundle</text>
+  <text x="78" y="668" class="card-copy">PPTX · PDF · documentación</text>
+
+  <!-- Databricks platform boundary -->
+  <rect x="340" y="156" width="924" height="608" rx="30" fill="#FBFCFD" stroke="#AEB8C2" stroke-width="2.5"/>
+  <line x1="340" y1="226" x2="1264" y2="226" stroke="#D9DFE5" stroke-width="2"/>
+  <g transform="translate(374 176) scale(1.55)" fill="#FF3621">
+    <path d="M.95 14.184L12 20.403l9.919-5.55v2.21L12 22.662l-10.484-5.96-.565.308v.77L12 24l11.05-6.218v-4.317l-.515-.309L12 19.118l-9.867-5.653v-2.21L12 16.805l11.05-6.218V6.32l-.515-.308L12 11.974 2.647 6.681 12 1.388l7.76 4.368.668-.411v-.566L12 0 .95 6.27v.72L12 13.207l9.919-5.55v2.26L12 15.52 1.516 9.56l-.565.308Z"/>
+  </g>
+  <text x="425" y="199" class="platform-label">DATABRICKS DATA INTELLIGENCE PLATFORM</text>
+  <rect x="1010" y="177" width="220" height="30" rx="15" fill="#E9F8F3"/>
+  <text x="1120" y="197" text-anchor="middle" class="tag" fill="#007A55">Unity Catalog · serverless</text>
+
+  <!-- Step 1: workflow -->
+  <rect x="380" y="270" width="226" height="330" rx="20" fill="#FFFFFF" stroke="#F39C4A" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="414" cy="305" r="20" fill="#F39C4A"/>
+  <text x="414" y="310" text-anchor="middle" class="step">01</text>
+  <text x="447" y="311" class="card-title">Job serverless</text>
+  <text x="404" y="350" class="small">4 tareas encadenadas</text>
+  <rect x="404" y="372" width="178" height="42" rx="10" fill="#FFF4E9"/>
+  <text x="419" y="398" class="tag">01 · Setup y generación</text>
+  <rect x="404" y="425" width="178" height="42" rx="10" fill="#FFF4E9"/>
+  <text x="419" y="451" class="tag">02 · Transformación</text>
+  <rect x="404" y="478" width="178" height="42" rx="10" fill="#FFF4E9"/>
+  <text x="419" y="504" class="tag">03 · Calidad de datos</text>
+  <rect x="404" y="531" width="178" height="42" rx="10" fill="#FFF4E9"/>
+  <text x="419" y="557" class="tag">04 · Validación final</text>
+
+  <!-- Step 2: data -->
+  <rect x="646" y="270" width="184" height="330" rx="20" fill="#FFFFFF" stroke="#1B2533" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="678" cy="305" r="20" fill="#1B2533"/>
+  <text x="678" y="310" text-anchor="middle" class="step">02</text>
+  <text x="710" y="311" class="card-title">Delta</text>
+  <text x="670" y="360" class="card-copy">Assets</text>
+  <text x="670" y="395" class="card-copy">Generación diaria</text>
+  <text x="670" y="430" class="card-copy">Incidencias</text>
+  <line x1="670" y1="458" x2="805" y2="458" stroke="#D9DFE5" stroke-width="2"/>
+  <text x="670" y="492" class="card-title">KPI diario</text>
+  <text x="670" y="525" class="card-copy">MWh · disponibilidad</text>
+  <text x="670" y="554" class="card-copy">coste · CO₂ · downtime</text>
+
+  <!-- Step 3: governance -->
+  <rect x="870" y="270" width="184" height="330" rx="20" fill="#FFFFFF" stroke="#00A972" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="902" cy="305" r="20" fill="#00A972"/>
+  <text x="902" y="310" text-anchor="middle" class="step">03</text>
+  <text x="934" y="311" class="card-title">Gobierno</text>
+  <text x="894" y="360" class="card-copy">Unity Catalog</text>
+  <text x="894" y="395" class="card-copy">Semantic View</text>
+  <text x="894" y="430" class="card-copy">Metric View</text>
+  <line x1="894" y1="458" x2="1029" y2="458" stroke="#D9DFE5" stroke-width="2"/>
+  <text x="894" y="492" class="card-copy">Unidades y periodo</text>
+  <text x="894" y="525" class="card-copy">Métricas reutilizables</text>
+  <text x="894" y="558" class="card-copy">Fuente autorizada</text>
+
+  <!-- Step 4: experiences -->
+  <rect x="1094" y="270" width="130" height="330" rx="20" fill="#FFFFFF" stroke="#FF3621" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="1125" cy="305" r="20" fill="#FF3621"/>
+  <text x="1125" y="310" text-anchor="middle" class="step">04</text>
+  <text x="1116" y="350" class="card-title">Analítica</text>
+  <rect x="1113" y="376" width="92" height="66" rx="12" fill="#FFF0ED"/>
+  <text x="1159" y="402" text-anchor="middle" class="tag">AI/BI</text>
+  <text x="1159" y="422" text-anchor="middle" class="small">Dashboard</text>
+  <rect x="1113" y="458" width="92" height="66" rx="12" fill="#FFF4E9"/>
+  <text x="1159" y="484" text-anchor="middle" class="tag">Genie</text>
+  <text x="1159" y="504" text-anchor="middle" class="small">Agent</text>
+  <text x="1159" y="558" text-anchor="middle" class="small">SQL + benchmark</text>
+
+  <!-- Quality lane -->
+  <rect x="380" y="642" width="844" height="84" rx="18" fill="#1B2533"/>
+  <g transform="translate(406 663) scale(1.55)" fill="#0A9EDC">
+    <path d="M2.6152 0v.8867h3.8399V0zm5.0215 0v.8867h3.8418V0zm4.957 0v.8867h3.8418V0zm4.9356 0v.8867h3.8418V0zM2.4473 1.8945a.935.935 0 0 0-.9356.9356c0 .517.4185.9375.9356.9375h19.1054c.5171 0 .9356-.4204.9356-.9375a.935.935 0 0 0-.9356-.9356zm.168 2.8477V24H6.455V4.7422zm5.0214 0V20.543h3.8418V4.7422zm4.957 0V15.291h3.8497V4.7422zm4.9356 0v6.4941h3.8418V4.7422z"/>
+  </g>
+  <text x="458" y="674" class="white-title">Quality gates</text>
+  <text x="458" y="702" class="white-copy">Ruff · Mypy · Pytest 25 · smoke tests · 16 controles remotos · benchmark Genie 5/5</text>
+
+  <!-- Consumers -->
+  <rect x="1310" y="260" width="236" height="236" rx="22" fill="#FF3621" filter="url(#shadow)"/>
+  <text x="1338" y="304" class="white-title">Genie One</text>
+  <text x="1338" y="340" class="white-copy">Entrada simplificada para negocio</text>
+  <line x1="1338" y1="368" x2="1518" y2="368" stroke="#FF9A8C" stroke-width="2"/>
+  <text x="1338" y="402" class="white-copy">Observar KPIs</text>
+  <text x="1338" y="432" class="white-copy">Preguntar y profundizar</text>
+  <text x="1338" y="462" class="white-copy">Priorizar decisiones</text>
+
+  <rect x="1310" y="536" width="236" height="152" rx="22" fill="#F7F9FB" stroke="#D9DFE5" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1338" y="574" class="card-title">Handoff técnico</text>
+  <text x="1338" y="608" class="card-copy">Repo + Bundle + README</text>
+  <text x="1338" y="638" class="card-copy">Free Edition o Enterprise</text>
+  <text x="1338" y="668" class="card-copy">OAuth U2M / CI/CD M2M</text>
+
+  <!-- Flow arrows -->
+  <path d="M292 334 H350 Q365 334 380 350" class="flow"/>
+  <path d="M292 594 H340 Q360 594 380 560" class="flow"/>
+  <path d="M606 435 H638" class="flow"/>
+  <path d="M830 435 H862" class="flow"/>
+  <path d="M1054 435 H1086" class="flow"/>
+  <path d="M1224 378 H1302" class="flow"/>
+  <path d="M1428 496 V528" class="flow"/>
+
+  <!-- Footer -->
+  <line x1="62" y1="824" x2="1538" y2="824" stroke="#D9DFE5" stroke-width="2"/>
+  <text x="62" y="860" class="small">GreenGrid Energy · caso ficticio · todos los datos son sintéticos</text>
+  <text x="1538" y="860" text-anchor="end" class="small">Python · PySpark · SQL · Databricks SDK · Declarative Automation Bundles</text>
+</svg>

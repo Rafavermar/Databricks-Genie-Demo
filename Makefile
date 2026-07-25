@@ -1,5 +1,6 @@
 PROFILE ?=
 WAREHOUSE_ID ?=
+TARGET ?= dev
 
 .PHONY: bootstrap lint format-check type-check test validate deploy run smoke presentation teardown
 
@@ -19,13 +20,13 @@ test:
 	uv run pytest -q --cov
 
 validate: lint format-check type-check test
-	databricks bundle validate --profile "$(PROFILE)"
+	databricks bundle validate --target "$(TARGET)" --profile "$(PROFILE)"
 
 deploy:
-	databricks bundle deploy --profile "$(PROFILE)"
+	databricks bundle deploy --target "$(TARGET)" --profile "$(PROFILE)"
 
 run:
-	databricks bundle run renewable_operations_setup --profile "$(PROFILE)"
+	databricks bundle run --target "$(TARGET)" renewable_operations_setup --profile "$(PROFILE)"
 
 smoke:
 	uv run python scripts/smoke_test.py --profile "$(PROFILE)" --warehouse-id "$(WAREHOUSE_ID)"

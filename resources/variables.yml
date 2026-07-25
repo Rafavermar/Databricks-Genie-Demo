@@ -6,8 +6,7 @@ variables:
     description: Isolated schema owned by this demo.
     default: renewable_operations_demo
   warehouse_id:
-    description: Existing serverless SQL warehouse used by AI/BI assets.
-    default: d8c8d62c82dd3d73
+    description: Required ID of an existing SQL warehouse used by AI/BI assets.
   seed:
     description: Fixed synthetic-data seed.
     default: "202603"
