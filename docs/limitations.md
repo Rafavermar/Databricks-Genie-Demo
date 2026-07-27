@@ -12,6 +12,32 @@
 - Genie Space creado mediante API y conversación validada.
 - PPTX, PDF y renderizado visual.
 
+## Alcance de Genie One
+
+La prueba valida el acceso al **AI/BI Dashboard** y al **Genie Agent** desde
+Genie One. No valida todas las capacidades disponibles en esa experiencia.
+
+| Capacidad | Para qué sirve | Estado en este proyecto |
+|---|---|---|
+| Dashboard y Genie Agent | Consumir KPIs y hacer preguntas sobre la fuente gobernada | Desplegado y probado |
+| Domains | Agrupar activos compartidos por contexto de negocio y facilitar su descubrimiento sin navegar la jerarquía técnica | No configurado ni probado |
+| Customizations | Adaptar la página de inicio —colores, logo, mensaje y contenido fijado— y extender el chat mediante Skills o Connections | No configurado ni probado |
+| Databricks Apps | Crear una experiencia web operativa que combine analítica, IA y workflows | Explicado como evolución; no desplegado |
+| Connections | Consultar fuentes externas como Google Drive, Microsoft 365, Atlassian o Slack desde el chat | No conectado ni probado |
+| Genie One a nivel de cuenta | Descubrir activos autorizados de varios workspaces desde una única entrada | No configurado ni probado |
+
+Domains está en Public Preview y Connections en Beta en la documentación
+consultada. Su disponibilidad depende de la región, las previews habilitadas,
+la edición y los permisos del entorno.
+
+Referencias:
+
+- [Genie One y Domains](https://docs.databricks.com/aws/en/genie-one)
+- [Personalizar la página de inicio](https://docs.databricks.com/aws/en/genie-one/customize-genie-homepage)
+- [Skills, tareas y documentos](https://docs.databricks.com/aws/en/workspace/genie-chat)
+- [Conexiones externas](https://docs.databricks.com/aws/en/genie-one/external-sources)
+- [Genie Agent como recurso de una App](https://docs.databricks.com/aws/en/dev-tools/databricks-apps/genie)
+
 ## Fallback implementado
 
 - `gg_renewable_operations_semantic` si Metric Views no están disponibles.

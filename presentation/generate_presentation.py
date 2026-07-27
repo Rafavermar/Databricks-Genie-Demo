@@ -1280,11 +1280,23 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
         slide,
         "Este demo despliega un Genie Agent y lo hace descubrible desde Genie One.",
         1.4,
-        6.1,
+        5.93,
         10.55,
         0.42,
-        size=17,
+        size=16,
         color=TEAL,
+        bold=True,
+        align=PP_ALIGN.CENTER,
+    )
+    _textbox(
+        slide,
+        "Fuera de alcance: Domains, Customizations y Databricks Apps.",
+        1.4,
+        6.38,
+        10.55,
+        0.3,
+        size=11,
+        color=ORANGE,
         bold=True,
         align=PP_ALIGN.CENTER,
     )
@@ -1307,10 +1319,10 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     )
     _real_screenshot(slide, GENIE_ONE_HOME_SCREENSHOT, 0.72, 1.3, 8.25, 5.22)
     benefits = [
-        ("Preguntar", "Lenguaje natural sobre datos gobernados."),
-        ("Descubrir", "Agents, dashboards y dominios compartidos."),
-        ("Consumir", "Apps y tareas sin cambiar de experiencia."),
-        ("Movilidad", "Experiencia disponible también en móvil."),
+        ("Validado · Preguntar", "Lenguaje natural sobre datos gobernados."),
+        ("Validado · Descubrir", "Genie Agent y dashboard compartidos."),
+        ("No probado · Organizar", "Domains y subdominios de negocio."),
+        ("No probado · Extender", "Customizations, Apps y Connections."),
     ]
     for index, (title, body) in enumerate(benefits):
         y = 1.35 + index * 1.27
@@ -1382,12 +1394,12 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     _box(slide, 2.45, 5.9, 8.45, 0.62, fill=NAVY, line=NAVY)
     _textbox(
         slide,
-        "GENIE ONE · consumo por usuarios de negocio  |  APP operativa · extensión opcional",
+        "VALIDADO · consumo desde Genie One  |  FUERA DE ALCANCE · Domains · Customizations · Apps",
         2.65,
         6.02,
         8.05,
         0.35,
-        size=12,
+        size=10.5,
         color=WHITE,
         bold=True,
         align=PP_ALIGN.CENTER,
@@ -1398,7 +1410,7 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
             "Explicar la jerarquía desde identidad hasta consumo y distinguir "
             "objetos de datos de experiencias."
         ),
-        "La siguiente lámina lo convierte en una visión visual de extremo a extremo.",
+        "La siguiente lámina representa el flujo analítico implementado.",
         "1:30",
     )
 
@@ -1937,11 +1949,11 @@ def build_presentation(metrics: dict[str, Any]) -> PresentationType:
     _box(slide, 6.95, 1.42, 5.65, 4.95, fill=WHITE, line=ORANGE)
     _pill(slide, "SIGUIENTES OPCIONES", 7.28, 1.72, 2.05, fill=ORANGE)
     optional = [
+        ("Domains", "Descubrimiento por contexto de negocio"),
+        ("Customizations", "Branding, contenido fijado y Skills"),
+        ("Connections", "Drive, Slack, Microsoft 365…"),
         ("App operativa", "Insight → workflow/acción"),
         ("Agent mode", "Investigaciones multiconsulta"),
-        ("Archivos en Volumes", "Cruzar datos y documentos"),
-        ("Conexiones externas", "Drive, Slack, Microsoft 365…"),
-        ("Companion Genie", "Exploración desde el dashboard"),
         ("Integración externa", "Conversation API o embedding"),
     ]
     for index, (title, body) in enumerate(optional):

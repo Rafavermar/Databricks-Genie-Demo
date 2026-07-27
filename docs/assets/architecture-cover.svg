@@ -9,16 +9,16 @@
       <path d="M0,0 L10,5 L0,10 Z" fill="#6B7785"/>
     </marker>
     <style>
-      .title { font: 700 38px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
-      .subtitle { font: 400 18px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
-      .platform-label { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #1B2533; letter-spacing: 0.8px; }
+      .title { font: 700 42px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .subtitle { font: 400 20px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
+      .platform-label { font: 700 20px "Segoe UI", Arial, sans-serif; fill: #1B2533; letter-spacing: 0.8px; }
       .step { font: 700 13px "Segoe UI", Arial, sans-serif; fill: #FFFFFF; }
-      .card-title { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
-      .card-copy { font: 400 14px "Segoe UI", Arial, sans-serif; fill: #526170; }
-      .small { font: 600 12px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
-      .tag { font: 600 12px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
-      .white-title { font: 700 18px "Segoe UI", Arial, sans-serif; fill: #FFFFFF; }
-      .white-copy { font: 400 13px "Segoe UI", Arial, sans-serif; fill: #E7EBEF; }
+      .card-title { font: 700 19px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .card-copy { font: 400 15px "Segoe UI", Arial, sans-serif; fill: #526170; }
+      .small { font: 600 13px "Segoe UI", Arial, sans-serif; fill: #6B7785; }
+      .tag { font: 600 13px "Segoe UI", Arial, sans-serif; fill: #1B2533; }
+      .white-title { font: 700 19px "Segoe UI", Arial, sans-serif; fill: #FFFFFF; }
+      .white-copy { font: 400 14px "Segoe UI", Arial, sans-serif; fill: #E7EBEF; }
       .flow { fill: none; stroke: #6B7785; stroke-width: 3; marker-end: url(#arrow); }
     </style>
   </defs>
@@ -124,7 +124,8 @@
   <!-- Consumers -->
   <rect x="1310" y="260" width="236" height="236" rx="22" fill="#FF3621" filter="url(#shadow)"/>
   <text x="1338" y="304" class="white-title">Genie One</text>
-  <text x="1338" y="340" class="white-copy">Entrada simplificada para negocio</text>
+  <text x="1338" y="336" class="white-copy">Entrada simplificada</text>
+  <text x="1338" y="356" class="white-copy">para negocio</text>
   <line x1="1338" y1="368" x2="1518" y2="368" stroke="#FF9A8C" stroke-width="2"/>
   <text x="1338" y="402" class="white-copy">Observar KPIs</text>
   <text x="1338" y="432" class="white-copy">Preguntar y profundizar</text>

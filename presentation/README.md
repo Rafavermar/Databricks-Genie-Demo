@@ -13,7 +13,9 @@ despliegue remoto y comprueba sus conteos contra el dataset local determinista.
 
 La versión contiene 21 diapositivas con notas de presentador,
 arquitectura editable, explicación de Genie One, Genie Agents y Apps, modelo de
-compartición y dos anexos técnicos.
+compartición y dos anexos técnicos. Distingue visualmente el flujo desplegado
+de las capacidades de plataforma no implementadas: Domains, Customizations,
+Connections y Databricks Apps.
 
 Los anexos técnicos detallan el job de cuatro tareas, lenguajes, GitHub Actions,
 quality gates y reproducción diferenciada para Free Edition y Enterprise.

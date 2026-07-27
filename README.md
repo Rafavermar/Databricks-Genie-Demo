@@ -375,12 +375,24 @@ usuario de negocio.
 
 ## Alcance deliberado
 
-El demo implementa la experiencia analítica completa, pero no pretende simular
-una plataforma productiva. Una implantación real debe añadir ingestión
-incremental, contratos con fuentes reales, permisos corporativos, observabilidad,
-SLAs, control de costes y operación del ciclo de vida. Databricks Apps se
-presenta únicamente como evolución posible y no forma parte del despliegue
-actual.
+El demo implementa y valida exclusivamente este flujo analítico:
+
+```text
+Job serverless → Delta → Unity Catalog → Metric View
+               → AI/BI Dashboard → Genie Agent → consumo desde Genie One
+```
+
+Esto no equivale a validar Genie One o la plataforma Databricks completa de
+extremo a extremo. El despliegue actual no configura ni prueba **Domains**,
+**Customizations** —apariencia, contenido fijado, Skills o Connections—,
+**Databricks Apps**, conexiones externas ni Genie One a nivel de cuenta.
+Estas capacidades se explican únicamente como opciones de evolución en
+[`docs/limitations.md`](docs/limitations.md).
+
+El demo tampoco pretende simular una plataforma productiva. Una implantación
+real debe añadir ingestión incremental, contratos con fuentes reales, permisos
+corporativos, observabilidad, SLAs, control de costes y operación del ciclo de
+vida.
 
 ## Teardown
 
